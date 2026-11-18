@@ -1,9 +1,104 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Page not found | MASK Capital</title><link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;1,400&family=Inter:wght@300;500&display=swap" rel="stylesheet">
-<style>body{margin:0;min-height:100vh;display:grid;place-items:center;background:#0b0c0e;color:#ece4d4;font-family:Inter,system-ui,sans-serif;font-weight:300;text-align:center;padding:24px}
-h1{font-family:"Cormorant Garamond",serif;font-weight:400;font-size:clamp(3rem,10vw,6rem);margin:0 0 1rem}em{color:#c9a96a}
-a{color:#ece4d4;border:1px solid rgba(236,228,212,.24);border-radius:999px;padding:.9rem 1.6rem;text-decoration:none;font-size:.8rem;letter-spacing:.14em;text-transform:uppercase}a:hover{border-color:#c9a96a;color:#c9a96a}
-p{color:#9a958b;margin:0 0 2.5rem}</style></head>
-<body><div><h1>Page <em>not</em> found.</h1><p>The page you&rsquo;re looking for doesn&rsquo;t exist.</p><a href="/">Return home</a></div></body></html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Page not found | MASK Capital Management</title>
+  <meta name="description" content="The page you are looking for does not exist.">
+  <meta name="theme-color" content="#091725">
+  <link rel="canonical" href="https://mask-capital.com/404">
+  <link rel="icon" href="assets/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+
+  <meta property="og:site_name" content="MASK Capital Management">
+  <meta property="og:title" content="Page not found | MASK Capital Management">
+  <meta property="og:description" content="The page you are looking for does not exist.">
+  <meta property="og:url" content="https://mask-capital.com/404">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://mask-capital.com/assets/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script>document.documentElement.classList.add("js")</script>
+</head>
+<body class="">
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="nav" id="nav">
+    <div class="container nav__inner">
+      <a href="index.html" class="brand" aria-label="MASK Capital Management, home">
+        <img class="brand__mark" src="assets/logo-mark.webp" alt="" width="44" height="44">
+        <span class="brand__text">
+          <span class="brand__word">MASK</span>
+          <span class="brand__sub">Capital Management</span>
+        </span>
+      </a>
+      <nav class="nav__links" id="navLinks" aria-label="Primary">
+        <a href="about.html">About</a>
+        <a href="strategies.html">Strategies</a>
+        <a href="team.html">Team</a>
+        <a href="contact.html" class="nav__cta">Contact</a>
+      </nav>
+      <button class="nav__toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">
+        <span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main id="main">
+<section class="page-hero page-hero--center">
+      <div class="container">
+        <p class="eyebrow">404</p>
+        <h1 class="page-hero__title">Page <span class="gold">not found.</span></h1>
+        <p class="page-hero__lede">The page you&rsquo;re looking for doesn&rsquo;t exist or has moved.</p>
+        <a href="/" class="btn btn--line">Return home</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__top">
+        <div class="footer__brand">
+          <a href="index.html" class="brand" aria-label="MASK Capital Management, home">
+            <img class="brand__mark" src="assets/logo-mark.webp" alt="" width="44" height="44" loading="lazy">
+            <span class="brand__text">
+              <span class="brand__word">MASK</span>
+              <span class="brand__sub">Capital Management</span>
+            </span>
+          </a>
+          <p>Precision in Strategy. Discipline in Capital.</p>
+        </div>
+        <div class="footer__cols">
+          <nav aria-label="Footer">
+            <p class="footer__label">Firm</p>
+            <a href="about.html">About</a>
+            <a href="strategies.html">Strategies</a>
+            <a href="team.html">Team</a>
+            <a href="contact.html">Contact</a>
+          </nav>
+          <nav aria-label="Legal">
+            <p class="footer__label">Legal</p>
+            <a href="privacy.html">Privacy</a>
+            <a href="terms.html">Terms</a>
+          </nav>
+          <div>
+            <p class="footer__label">Contact</p>
+            <a href="mailto:contact@mask-capital.com">contact@mask-capital.com</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer__legal">
+        <p>&copy; <span data-year>2026</span> MASK Capital Management. All rights reserved.</p>
+        <p class="footer__disclaimer">Information on this website describes research and proprietary trading activities and is not investment advice, an offer to manage client funds, or a recommendation to trade securities.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js" defer></script>
+</body>
+</html>

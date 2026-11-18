@@ -1,2 +1,3 @@
 User-agent: *
 Allow: /
+Sitemap: https://mask-capital.com/sitemap.xml

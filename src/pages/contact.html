@@ -1,0 +1,70 @@
+<!-- title: Contact | MASK Capital Management -->
+<!-- description: For general enquiries and professional correspondence, contact MASK Capital Management. -->
+<!-- nav: contact -->
+
+    <section class="page-hero page-hero--short">
+      <div class="container">
+        <p class="eyebrow reveal">Contact</p>
+        <h1 class="page-hero__title reveal">Professional<br><span class="gold">correspondence.</span></h1>
+      </div>
+    </section>
+
+    <section class="section section--tight">
+      <div class="container contact">
+        <div class="contact__info">
+          <p class="lead reveal">For general enquiries and professional correspondence, please contact MASK Capital Management. We aim to respond to relevant messages as soon as practicable.</p>
+          <div class="contact__block reveal">
+            <p class="label">Email</p>
+            <a class="contact__email" href="mailto:contact@mask-capital.com">contact@mask-capital.com</a>
+          </div>
+          <p class="contact__note reveal">Please do not send trading account details, financial documents or other sensitive information through this website.</p>
+        </div>
+
+        <form class="form reveal" id="contactForm" action="https://formsubmit.co/contact@mask-capital.com" method="POST" novalidate>
+          <input type="hidden" name="_subject" value="New enquiry via mask-capital.com">
+          <input type="hidden" name="_template" value="table">
+          <input type="hidden" name="_captcha" value="false">
+          <input type="text" name="_honey" class="form__hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+          <div class="form__row">
+            <div class="field">
+              <label for="f-name">Name</label>
+              <input id="f-name" name="name" type="text" autocomplete="name" required>
+            </div>
+            <div class="field">
+              <label for="f-email">Email</label>
+              <input id="f-email" name="email" type="email" autocomplete="email" required>
+            </div>
+          </div>
+          <div class="form__row">
+            <div class="field">
+              <label for="f-org">Organisation <span class="opt">(optional)</span></label>
+              <input id="f-org" name="organisation" type="text" autocomplete="organization">
+            </div>
+            <div class="field">
+              <label for="f-type">Enquiry type</label>
+              <select id="f-type" name="enquiry_type" required>
+                <option value="" disabled selected>Select one</option>
+                <option>General enquiry</option>
+                <option>Professional / partnership</option>
+                <option>Careers</option>
+                <option>Media</option>
+                <option>Other</option>
+              </select>
+            </div>
+          </div>
+          <div class="field">
+            <label for="f-msg">Message</label>
+            <textarea id="f-msg" name="message" rows="6" required></textarea>
+          </div>
+          <label class="consent">
+            <input type="checkbox" name="consent" value="yes" required>
+            <span>I consent to MASK Capital Management using these details to respond to my enquiry, as described in the <a href="privacy.html">Privacy Notice</a>.</span>
+          </label>
+          <div class="form__foot">
+            <button type="submit" class="btn btn--gold">Send enquiry <span aria-hidden="true">&rarr;</span></button>
+            <p class="form__status" id="formStatus" role="status" aria-live="polite"></p>
+          </div>
+        </form>
+      </div>
+    </section>

@@ -3,225 +3,221 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>MASK Capital</title>
-  <meta name="description" content="MASK Capital is a private investment firm partnering with exceptional founders and businesses for the long term.">
-  <meta name="theme-color" content="#0b0c0e">
+  <title>MASK Capital Management | Precision in Strategy. Discipline in Capital.</title>
+  <meta name="description" content="MASK Capital Management is an independent, research-driven quantitative trading practice focused on systematic derivatives strategies, robust execution and disciplined risk management.">
+  <meta name="theme-color" content="#091725">
   <link rel="canonical" href="https://mask-capital.com/">
-  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="assets/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 
-  <meta property="og:title" content="MASK Capital">
-  <meta property="og:description" content="Patient capital for exceptional businesses.">
+  <meta property="og:site_name" content="MASK Capital Management">
+  <meta property="og:title" content="MASK Capital Management | Precision in Strategy. Discipline in Capital.">
+  <meta property="og:description" content="MASK Capital Management is an independent, research-driven quantitative trading practice focused on systematic derivatives strategies, robust execution and disciplined risk management.">
   <meta property="og:url" content="https://mask-capital.com/">
   <meta property="og:type" content="website">
+  <meta property="og:image" content="https://mask-capital.com/assets/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+  <script>document.documentElement.classList.add("js")</script>
 </head>
-<body>
+<body class="page-home">
+  <a class="skip" href="#main">Skip to content</a>
 
-  <!-- ============ NAV ============ -->
   <header class="nav" id="nav">
     <div class="container nav__inner">
-      <a href="#top" class="brand" aria-label="MASK Capital home">
-        <svg class="brand__mark" viewBox="0 0 40 40" aria-hidden="true">
-          <path d="M6 10 L20 4 L34 10 L34 22 C34 30 27 36 20 37 C13 36 6 30 6 22 Z" fill="none" stroke="currentColor" stroke-width="1.4"/>
-          <path d="M11 16 L17 14 L18 19 L12 19 Z M29 16 L23 14 L22 19 L28 19 Z" fill="currentColor"/>
-          <path d="M14 27 L20 30 L26 27" fill="none" stroke="currentColor" stroke-width="1.4"/>
-        </svg>
-        <span class="brand__word">MASK<span class="brand__sub">Capital</span></span>
+      <a href="index.html" class="brand" aria-label="MASK Capital Management, home">
+        <img class="brand__mark" src="assets/logo-mark.webp" alt="" width="44" height="44">
+        <span class="brand__text">
+          <span class="brand__word">MASK</span>
+          <span class="brand__sub">Capital Management</span>
+        </span>
       </a>
       <nav class="nav__links" id="navLinks" aria-label="Primary">
-        <a href="#about">About</a>
-        <a href="#approach">Approach</a>
-        <a href="#focus">Focus</a>
-        <a href="#principles">Principles</a>
-        <a href="#contact" class="nav__cta">Contact</a>
+        <a href="about.html">About</a>
+        <a href="strategies.html">Strategies</a>
+        <a href="team.html">Team</a>
+        <a href="contact.html" class="nav__cta">Contact</a>
       </nav>
-      <button class="nav__toggle" id="navToggle" aria-label="Open menu" aria-expanded="false">
+      <button class="nav__toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">
         <span></span><span></span>
       </button>
     </div>
   </header>
 
-  <main id="top">
-
-    <!-- ============ HERO ============ -->
-    <section class="hero">
-      <div class="hero__glow" aria-hidden="true"></div>
-      <div class="hero__grid" aria-hidden="true"></div>
+  <main id="main">
+<section class="hero">
+      <canvas class="hero__field" id="field" aria-hidden="true"></canvas>
+      <div class="hero__fade" aria-hidden="true"></div>
       <div class="container hero__inner">
-        <p class="eyebrow reveal">Private Investment Firm</p>
-        <h1 class="hero__title reveal">
-          Patient capital<br>
-          for <em>exceptional</em> businesses.
-        </h1>
-        <p class="hero__lede reveal">
-          MASK Capital partners with founders and management teams building durable,
-          category-defining companies. We invest with conviction, think in decades,
-          and stay quietly alongside the people doing the work.
-        </p>
+        <p class="eyebrow reveal">Independent / Systematic / Research-Driven</p>
+        <h1 class="hero__title reveal"><span>Precision in Strategy.</span><br><span class="gold">Discipline in Capital.</span></h1>
+        <p class="hero__lede reveal">We develop and evaluate systematic trading approaches through quantitative research, disciplined execution and rigorous risk management.</p>
         <div class="hero__actions reveal">
-          <a href="#contact" class="btn btn--primary">Get in touch</a>
-          <a href="#approach" class="btn btn--ghost">Our approach <span aria-hidden="true">&rarr;</span></a>
-        </div>
-      </div>
-      <a href="#about" class="hero__scroll" aria-label="Scroll to About">
-        <span></span>
-      </a>
-    </section>
-
-    <!-- ============ ABOUT ============ -->
-    <section class="section" id="about">
-      <div class="container split">
-        <div class="split__label reveal">
-          <span class="index">01</span>
-          <p class="eyebrow">About</p>
-        </div>
-        <div class="split__body">
-          <h2 class="h2 reveal">Behind every great company is a long view.</h2>
-          <p class="lead reveal">
-            We are a focused team of investors and operators. We back a small number of
-            businesses each year and commit the time, capital and network it takes to help
-            them compound.
-          </p>
-          <p class="reveal">
-            Our name reflects how we work: discreet, disciplined and in service of the
-            companies we support. The spotlight belongs to our founders. Our job is to make
-            their next chapter easier to write.
-          </p>
+          <a href="strategies.html" class="btn btn--gold">Explore Our Approach <span aria-hidden="true">&rarr;</span></a>
+          <a href="about.html" class="btn btn--line">About MASK</a>
         </div>
       </div>
     </section>
 
-    <!-- ============ APPROACH ============ -->
-    <section class="section section--alt" id="approach">
+    <section class="section section--ivory" id="philosophy">
       <div class="container">
-        <div class="section__head">
-          <span class="index reveal">02</span>
-          <p class="eyebrow reveal">Approach</p>
-          <h2 class="h2 reveal">How we partner.</h2>
+        <div class="split">
+          <div class="split__label">
+            <p class="label reveal"><span class="label__num">01</span> Our Philosophy</p>
+          </div>
+          <div class="split__body">
+            <h2 class="h2 reveal">Markets evolve. Our process is designed to evolve with them.</h2>
+            <p class="lead reveal">We combine research, automation and ongoing evaluation to build trading systems that remain accountable to measurable risk.</p>
+          </div>
         </div>
-        <div class="cards">
-          <article class="card reveal">
-            <span class="card__num">I</span>
-            <h3>Conviction</h3>
-            <p>Concentrated positions in businesses we understand deeply. We do the work up front so we can be decisive when it matters.</p>
+        <div class="pillars">
+          <article class="pillar reveal">
+            <span class="pillar__num">I</span>
+            <h3>Research</h3>
+            <p>We investigate market structure, derivatives behaviour, volatility and statistical patterns through structured testing and ongoing analysis.</p>
           </article>
-          <article class="card reveal">
-            <span class="card__num">II</span>
-            <h3>Partnership</h3>
-            <p>We align with founders, not against them. Flexible structures, clear terms and a relationship built on trust.</p>
+          <article class="pillar reveal">
+            <span class="pillar__num">II</span>
+            <h3>Execution</h3>
+            <p>We translate research into monitored, rules-based workflows with attention to reliability, latency and operational controls.</p>
           </article>
-          <article class="card reveal">
-            <span class="card__num">III</span>
-            <h3>Patience</h3>
-            <p>No artificial timelines. We hold for as long as the opportunity compounds, letting great businesses do what they do best.</p>
-          </article>
-          <article class="card reveal">
-            <span class="card__num">IV</span>
-            <h3>Access</h3>
-            <p>A network of operators, advisors and capital partners we bring to bear on hiring, strategy and growth.</p>
+          <article class="pillar reveal">
+            <span class="pillar__num">III</span>
+            <h3>Risk</h3>
+            <p>We evaluate exposures, drawdowns, liquidity and changing conditions as integral parts of the trading process.</p>
           </article>
         </div>
       </div>
     </section>
 
-    <!-- ============ FOCUS ============ -->
     <section class="section" id="focus">
       <div class="container">
         <div class="section__head">
-          <span class="index reveal">03</span>
-          <p class="eyebrow reveal">Focus</p>
-          <h2 class="h2 reveal">Where we invest.</h2>
+          <p class="label reveal"><span class="label__num">02</span> Our Focus</p>
+          <h2 class="h2 reveal">Where our research concentrates.</h2>
         </div>
-        <ul class="focus">
-          <li class="focus__item reveal">
-            <span class="focus__title">Technology</span>
-            <span class="focus__desc">Software, infrastructure and platforms with durable economics.</span>
-            <span class="focus__arrow" aria-hidden="true">&#8599;</span>
-          </li>
-          <li class="focus__item reveal">
-            <span class="focus__title">Financial Services</span>
-            <span class="focus__desc">Modern financial products and the rails that power them.</span>
-            <span class="focus__arrow" aria-hidden="true">&#8599;</span>
-          </li>
-          <li class="focus__item reveal">
-            <span class="focus__title">Consumer</span>
-            <span class="focus__desc">Brands with loyal customers and pricing power.</span>
-            <span class="focus__arrow" aria-hidden="true">&#8599;</span>
-          </li>
-          <li class="focus__item reveal">
-            <span class="focus__title">Real Assets</span>
-            <span class="focus__desc">Tangible assets with long-term, inflation-resilient value.</span>
-            <span class="focus__arrow" aria-hidden="true">&#8599;</span>
-          </li>
-        </ul>
+        <div class="cards">
+          <article class="card reveal">
+            <svg class="card__icon" viewBox="0 0 48 48" aria-hidden="true"><path d="M4 36 L16 24 L24 30 L44 10" /><path d="M4 44 H44" /></svg>
+            <h3>Systematic Derivatives</h3>
+            <p>Research into rules-based index options approaches across intraday and multi-session horizons.</p>
+          </article>
+          <article class="card reveal">
+            <svg class="card__icon" viewBox="0 0 48 48" aria-hidden="true"><path d="M4 30 C12 30 14 12 24 12 C34 12 36 30 44 30" /><path d="M4 38 C14 38 16 24 24 24 C32 24 34 38 44 38" /></svg>
+            <h3>Volatility &amp; Greeks</h3>
+            <p>Analysis of implied volatility, delta, gamma and other sensitivities to understand portfolio behaviour.</p>
+          </article>
+          <article class="card reveal">
+            <svg class="card__icon" viewBox="0 0 48 48" aria-hidden="true"><rect x="6" y="8" width="36" height="10" /><rect x="6" y="22" width="36" height="10" /><path d="M12 13 H20 M12 27 H26 M24 38 V44 M14 44 H34" /></svg>
+            <h3>Execution Engineering</h3>
+            <p>Automated workflows, monitoring and infrastructure designed to support consistent implementation.</p>
+          </article>
+          <article class="card reveal">
+            <svg class="card__icon" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 4 L42 11 V24 C42 34 34 41 24 44 C14 41 6 34 6 24 V11 Z" /><path d="M16 24 L22 30 L33 18" /></svg>
+            <h3>Risk Analytics</h3>
+            <p>Scenario evaluation, exposure limits and continuous strategy review.</p>
+          </article>
+        </div>
       </div>
     </section>
 
-    <!-- ============ QUOTE ============ -->
-    <section class="quote">
+    <section class="section section--slate" id="process">
       <div class="container">
-        <blockquote class="reveal">
-          &ldquo;The best investments are relationships first, and transactions second.&rdquo;
-        </blockquote>
+        <div class="section__head section__head--center">
+          <p class="label reveal"><span class="label__num">03</span> Operating Discipline</p>
+          <h2 class="h2 reveal">A process, not a prediction.</h2>
+          <p class="lead reveal">Our approach values repeatability and transparency of process over short-term narratives.</p>
+        </div>
+        <ol class="process">
+          <li class="process__step reveal"><span class="process__dot"></span><span class="process__n">01</span><span class="process__t">Observe</span></li>
+          <li class="process__step reveal"><span class="process__dot"></span><span class="process__n">02</span><span class="process__t">Hypothesise</span></li>
+          <li class="process__step reveal"><span class="process__dot"></span><span class="process__n">03</span><span class="process__t">Test</span></li>
+          <li class="process__step reveal"><span class="process__dot"></span><span class="process__n">04</span><span class="process__t">Deploy carefully</span></li>
+          <li class="process__step reveal"><span class="process__dot"></span><span class="process__n">05</span><span class="process__t">Monitor</span></li>
+          <li class="process__step reveal"><span class="process__dot"></span><span class="process__n">06</span><span class="process__t">Refine</span></li>
+        </ol>
       </div>
     </section>
 
-    <!-- ============ PRINCIPLES ============ -->
-    <section class="section" id="principles">
+    <section class="section" id="about">
+      <div class="container about-teaser">
+        <div class="about-teaser__logo reveal">
+          <img src="assets/logo-full.webp" alt="MASK Capital Management logo" width="894" height="900" loading="lazy">
+        </div>
+        <div>
+          <p class="label reveal"><span class="label__num">04</span> About MASK</p>
+          <h2 class="h2 reveal">Independent thinking. Systematic execution.</h2>
+          <p class="reveal">Our work brings together derivatives analysis, systematic strategy development, execution engineering and risk oversight. We believe a robust trading practice requires more than an attractive backtest.</p>
+          <a href="about.html" class="link-arrow reveal">More about MASK <span aria-hidden="true">&rarr;</span></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--ivory" id="people">
       <div class="container split">
-        <div class="split__label reveal">
-          <span class="index">04</span>
-          <p class="eyebrow">Principles</p>
+        <div class="split__label">
+          <p class="label reveal"><span class="label__num">05</span> People</p>
         </div>
         <div class="split__body">
-          <h2 class="h2 reveal">What we hold ourselves to.</h2>
-          <ol class="principles">
-            <li class="reveal"><span>Integrity</span><p>We do what we say, and say what we mean.</p></li>
-            <li class="reveal"><span>Discretion</span><p>Your business and your plans stay confidential.</p></li>
-            <li class="reveal"><span>Alignment</span><p>We win only when our partners win.</p></li>
-            <li class="reveal"><span>Rigor</span><p>Every decision is grounded in first-principles thinking.</p></li>
-          </ol>
+          <h2 class="h2 reveal">Markets, mathematics and engineering.</h2>
+          <p class="lead reveal">We value curiosity, clear accountability, thoughtful debate and a disciplined approach to execution.</p>
+          <a href="team.html" class="link-arrow link-arrow--dark reveal">Meet the team <span aria-hidden="true">&rarr;</span></a>
         </div>
       </div>
     </section>
 
-    <!-- ============ CONTACT ============ -->
-    <section class="section contact" id="contact">
-      <div class="contact__glow" aria-hidden="true"></div>
-      <div class="container contact__inner">
-        <p class="eyebrow reveal">Contact</p>
-        <h2 class="contact__title reveal">Let&rsquo;s build something <em>enduring</em>.</h2>
-        <p class="lead reveal">Founders, co-investors and partners: we&rsquo;d love to hear from you.</p>
-        <a class="contact__email reveal" href="mailto:karan@mask-capital.com">karan@mask-capital.com</a>
+    <section class="section cta">
+      <div class="container cta__inner">
+        <span class="hairline reveal" aria-hidden="true"></span>
+        <h2 class="cta__title reveal">Built on research.<br><span class="gold">Guided by discipline.</span></h2>
+        <a href="contact.html" class="btn btn--gold reveal">Contact MASK Capital <span aria-hidden="true">&rarr;</span></a>
       </div>
     </section>
-
   </main>
 
-  <!-- ============ FOOTER ============ -->
   <footer class="footer">
-    <div class="container footer__inner">
-      <div class="footer__brand">
-        <span class="brand__word">MASK<span class="brand__sub">Capital</span></span>
-        <p>Patient capital for exceptional businesses.</p>
+    <div class="container">
+      <div class="footer__top">
+        <div class="footer__brand">
+          <a href="index.html" class="brand" aria-label="MASK Capital Management, home">
+            <img class="brand__mark" src="assets/logo-mark.webp" alt="" width="44" height="44" loading="lazy">
+            <span class="brand__text">
+              <span class="brand__word">MASK</span>
+              <span class="brand__sub">Capital Management</span>
+            </span>
+          </a>
+          <p>Precision in Strategy. Discipline in Capital.</p>
+        </div>
+        <div class="footer__cols">
+          <nav aria-label="Footer">
+            <p class="footer__label">Firm</p>
+            <a href="about.html">About</a>
+            <a href="strategies.html">Strategies</a>
+            <a href="team.html">Team</a>
+            <a href="contact.html">Contact</a>
+          </nav>
+          <nav aria-label="Legal">
+            <p class="footer__label">Legal</p>
+            <a href="privacy.html">Privacy</a>
+            <a href="terms.html">Terms</a>
+          </nav>
+          <div>
+            <p class="footer__label">Contact</p>
+            <a href="mailto:contact@mask-capital.com">contact@mask-capital.com</a>
+          </div>
+        </div>
       </div>
-      <nav class="footer__links" aria-label="Footer">
-        <a href="#about">About</a>
-        <a href="#approach">Approach</a>
-        <a href="#focus">Focus</a>
-        <a href="#contact">Contact</a>
-      </nav>
-    </div>
-    <div class="container footer__legal">
-      <p>&copy; <span id="year">2026</span> MASK Capital. All rights reserved.</p>
-      <p class="footer__disclaimer">This website is for informational purposes only and does not constitute an offer to sell or a solicitation of an offer to buy any security.</p>
+      <div class="footer__legal">
+        <p>&copy; <span data-year>2026</span> MASK Capital Management. All rights reserved.</p>
+        <p class="footer__disclaimer">Information on this website describes research and proprietary trading activities and is not investment advice, an offer to manage client funds, or a recommendation to trade securities.</p>
+      </div>
     </div>
   </footer>
 
-  <script src="script.js"></script>
+  <script src="script.js" defer></script>
 </body>
 </html>
