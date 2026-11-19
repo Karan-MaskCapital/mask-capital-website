@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Back Office Sign In | MASK Capital Management</title>
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#091725">
+  <link rel="icon" href="../assets/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="stylesheet" href="backoffice.css">
+</head>
+<body class="bo-auth">
+  <main class="auth">
+    <div class="auth__card">
+      <a href="../" class="auth__brand" aria-label="MASK Capital Management, home">
+        <img src="../assets/logo-mark.webp" alt="" width="64" height="64">
+        <span class="brand__text">
+          <span class="brand__word">MASK</span>
+          <span class="brand__sub">Capital Management</span>
+        </span>
+      </a>
+      <p class="eyebrow">Back Office</p>
+      <h1 class="auth__title">Sign in</h1>
+
+      <form id="loginForm" novalidate>
+        <div class="field">
+          <label for="username">Username</label>
+          <input id="username" name="username" type="text" autocomplete="username" autocapitalize="none" spellcheck="false" required>
+        </div>
+        <div class="field">
+          <label for="password">Password</label>
+          <input id="password" name="password" type="password" autocomplete="current-password" required>
+        </div>
+        <button type="submit" class="btn btn--gold auth__submit">Sign in <span aria-hidden="true">&rarr;</span></button>
+        <p class="form__status" id="loginStatus" role="status" aria-live="polite"></p>
+      </form>
+
+      <p class="auth__foot">Authorised MASK Capital personnel only. Access is logged.</p>
+    </div>
+    <a href="../" class="auth__back">&larr; Back to mask-capital.com</a>
+  </main>
+  <script src="config.js"></script>
+  <script src="bo.js"></script>
+</body>
+</html>

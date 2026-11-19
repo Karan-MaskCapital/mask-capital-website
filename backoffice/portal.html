@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Back Office | MASK Capital Management</title>
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#091725">
+  <link rel="icon" href="../assets/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="stylesheet" href="backoffice.css">
+</head>
+<body class="bo-app" hidden>
+  <header class="bo-top">
+    <a href="portal.html" class="brand" aria-label="Back office home">
+      <img class="brand__mark" src="../assets/logo-mark.webp" alt="" width="40" height="40">
+      <span class="brand__text">
+        <span class="brand__word">MASK</span>
+        <span class="brand__sub">Back Office</span>
+      </span>
+    </a>
+    <div class="bo-top__user">
+      <span id="whoName"></span>
+      <span class="bo-badge" id="whoRole"></span>
+      <button class="bo-link" id="logoutBtn" type="button">Sign out</button>
+    </div>
+  </header>
+
+  <div class="bo-shell">
+    <nav class="bo-nav" aria-label="Back office">
+      <button type="button" data-view="overview" class="is-active">Overview</button>
+      <button type="button" data-view="tally">Trade Tally</button>
+      <button type="button" data-view="users" data-admin>Users</button>
+      <button type="button" data-view="audit" data-admin>Activity Log</button>
+      <button type="button" data-view="account">My Account</button>
+    </nav>
+
+    <main class="bo-main" id="main">
+      <!-- must-change banner -->
+      <div class="bo-alert" id="mustChange" hidden>
+        <strong>Set a new password to continue.</strong> Your account is using a temporary password.
+      </div>
+
+      <section class="bo-view" data-view="overview">
+        <h1 class="bo-h1">Welcome, <span id="welcomeName"></span></h1>
+        <p class="bo-sub">MASK Capital Management back office.</p>
+        <div class="bo-tiles">
+          <button type="button" class="bo-tile" data-goto="tally"><span class="bo-tile__k">Trade Tally</span><span class="bo-tile__v">Daily hisaab, reconciliations and books</span><span class="bo-tile__tag">Coming soon</span></button>
+          <button type="button" class="bo-tile" data-goto="users" data-admin><span class="bo-tile__k">Users</span><span class="bo-tile__v">Create and manage back office staff accounts</span></button>
+          <button type="button" class="bo-tile" data-goto="account"><span class="bo-tile__k">My Account</span><span class="bo-tile__v">Change your password</span></button>
+        </div>
+      </section>
+
+      <section class="bo-view" data-view="tally" hidden>
+        <h1 class="bo-h1">Trade Tally</h1>
+        <p class="bo-sub">Trade tallies, hisaab and reconciliations will appear here once the workflows are defined. All records are stored in the MASK Capital Google Sheet.</p>
+        <div class="bo-empty">Module in preparation.</div>
+      </section>
+
+      <section class="bo-view" data-view="users" hidden>
+        <div class="bo-head">
+          <h1 class="bo-h1">Users</h1>
+          <button type="button" class="btn btn--gold btn--sm" id="newUserBtn">New user</button>
+        </div>
+
+        <form class="bo-panel" id="newUserForm" hidden novalidate>
+          <h2 class="bo-h2">Create user</h2>
+          <div class="bo-grid">
+            <div class="field"><label for="nu-name">Full name</label><input id="nu-name" required></div>
+            <div class="field"><label for="nu-username">Username</label><input id="nu-username" autocapitalize="none" spellcheck="false" required></div>
+            <div class="field"><label for="nu-role">Role</label><select id="nu-role"><option value="staff">Staff</option><option value="admin">Admin</option></select></div>
+            <div class="field"><label for="nu-password">Temporary password</label><input id="nu-password" type="text" autocomplete="off" required></div>
+          </div>
+          <p class="bo-hint">At least 8 characters. The user must change it at first sign-in.</p>
+          <div class="bo-actions">
+            <button type="submit" class="btn btn--gold btn--sm">Create user</button>
+            <button type="button" class="btn btn--line btn--sm" id="cancelNewUser">Cancel</button>
+            <span class="form__status" id="newUserStatus" role="status" aria-live="polite"></span>
+          </div>
+        </form>
+
+        <div class="bo-table-wrap">
+          <table class="bo-table">
+            <thead><tr><th>Name</th><th>Username</th><th>Role</th><th>Status</th><th>Last sign-in</th><th><span class="sr-only">Actions</span></th></tr></thead>
+            <tbody id="usersBody"><tr><td colspan="6">Loading…</td></tr></tbody>
+          </table>
+        </div>
+        <p class="form__status" id="usersStatus" role="status" aria-live="polite"></p>
+      </section>
+
+      <section class="bo-view" data-view="audit" hidden>
+        <h1 class="bo-h1">Activity Log</h1>
+        <p class="bo-sub">The latest 100 sign-ins and account changes.</p>
+        <div class="bo-table-wrap">
+          <table class="bo-table">
+            <thead><tr><th>Time</th><th>By</th><th>Action</th><th>Account</th><th>Details</th></tr></thead>
+            <tbody id="auditBody"><tr><td colspan="5">Loading…</td></tr></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="bo-view" data-view="account" hidden>
+        <h1 class="bo-h1">My Account</h1>
+        <form class="bo-panel bo-panel--narrow" id="pwForm" novalidate>
+          <h2 class="bo-h2">Change password</h2>
+          <div class="field"><label for="pw-current">Current password</label><input id="pw-current" type="password" autocomplete="current-password" required></div>
+          <div class="field"><label for="pw-new">New password</label><input id="pw-new" type="password" autocomplete="new-password" required></div>
+          <div class="field"><label for="pw-confirm">Confirm new password</label><input id="pw-confirm" type="password" autocomplete="new-password" required></div>
+          <p class="bo-hint">At least 8 characters.</p>
+          <div class="bo-actions">
+            <button type="submit" class="btn btn--gold btn--sm">Update password</button>
+            <span class="form__status" id="pwStatus" role="status" aria-live="polite"></span>
+          </div>
+        </form>
+      </section>
+    </main>
+  </div>
+
+  <script src="config.js"></script>
+  <script src="bo.js"></script>
+</body>
+</html>

@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Trade Tools | MASK Capital Management</title>
+  <meta name="description" content="Analytical tools for traders from MASK Capital Management: option Greeks and position sizing, with member tools coming soon.">
+  <meta name="theme-color" content="#091725">
+  <link rel="canonical" href="https://mask-capital.com/trade-tools">
+  <link rel="icon" href="assets/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+
+  <meta property="og:site_name" content="MASK Capital Management">
+  <meta property="og:title" content="Trade Tools | MASK Capital Management">
+  <meta property="og:description" content="Analytical tools for traders from MASK Capital Management: option Greeks and position sizing, with member tools coming soon.">
+  <meta property="og:url" content="https://mask-capital.com/trade-tools">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://mask-capital.com/assets/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script>document.documentElement.classList.add("js")</script>
+</head>
+<body class="">
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="nav" id="nav">
+    <div class="container nav__inner">
+      <a href="index.html" class="brand" aria-label="MASK Capital Management, home">
+        <img class="brand__mark" src="assets/logo-mark.webp" alt="" width="44" height="44">
+        <span class="brand__text">
+          <span class="brand__word">MASK</span>
+          <span class="brand__sub">Capital Management</span>
+        </span>
+      </a>
+      <nav class="nav__links" id="navLinks" aria-label="Primary">
+        <a href="about.html">About</a>
+        <a href="strategies.html">Strategies</a>
+        <a href="team.html">Team</a>
+        <a href="trade-tools.html" aria-current="page">Trade Tools</a>
+        <a href="contact.html" class="nav__cta">Contact</a>
+      </nav>
+      <button class="nav__toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">
+        <span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main id="main">
+<section class="page-hero">
+      <div class="container">
+        <p class="eyebrow reveal">Trade Tools</p>
+        <h1 class="page-hero__title reveal">Analytical tools<br><span class="gold">for disciplined traders.</span></h1>
+        <p class="page-hero__lede reveal">A growing set of calculators and analytics built on the same principles we apply to our own research: measure exposure, size risk deliberately, and let process guide execution.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section__head">
+          <p class="label reveal"><span class="label__num">01</span> Free Tools</p>
+          <h2 class="h2 reveal">Open to everyone.</h2>
+        </div>
+
+        <div class="tools">
+          <!-- Option Greeks -->
+          <article class="tool reveal" id="greeks">
+            <header class="tool__head">
+              <h3>Option Greeks Calculator</h3>
+              <p>Theoretical price and sensitivities using the Black&ndash;Scholes model for European options.</p>
+            </header>
+            <form class="tool__form" id="greeksForm" autocomplete="off">
+              <div class="tool__grid">
+                <div class="field"><label for="g-type">Option type</label>
+                  <select id="g-type"><option value="call">Call (CE)</option><option value="put">Put (PE)</option></select></div>
+                <div class="field"><label for="g-spot">Spot price</label><input id="g-spot" type="number" step="any" value="24000"></div>
+                <div class="field"><label for="g-strike">Strike price</label><input id="g-strike" type="number" step="any" value="24000"></div>
+                <div class="field"><label for="g-days">Days to expiry</label><input id="g-days" type="number" step="any" min="0" value="7"></div>
+                <div class="field"><label for="g-iv">Implied volatility (%)</label><input id="g-iv" type="number" step="any" min="0" value="13"></div>
+                <div class="field"><label for="g-rate">Risk-free rate (%)</label><input id="g-rate" type="number" step="any" value="6.5"></div>
+              </div>
+            </form>
+            <dl class="tool__out" id="greeksOut">
+              <div><dt>Theoretical price</dt><dd data-k="price">–</dd></div>
+              <div><dt>Delta</dt><dd data-k="delta">–</dd></div>
+              <div><dt>Gamma</dt><dd data-k="gamma">–</dd></div>
+              <div><dt>Theta / day</dt><dd data-k="theta">–</dd></div>
+              <div><dt>Vega / 1% IV</dt><dd data-k="vega">–</dd></div>
+              <div><dt>Rho / 1%</dt><dd data-k="rho">–</dd></div>
+            </dl>
+          </article>
+
+          <!-- Position sizing -->
+          <article class="tool reveal" id="sizing">
+            <header class="tool__head">
+              <h3>Position Size Calculator</h3>
+              <p>How large a position can be when the loss at your stop is capped at a chosen share of capital.</p>
+            </header>
+            <form class="tool__form" id="sizeForm" autocomplete="off">
+              <div class="tool__grid">
+                <div class="field"><label for="s-capital">Trading capital</label><input id="s-capital" type="number" step="any" min="0" value="1000000"></div>
+                <div class="field"><label for="s-risk">Risk per trade (%)</label><input id="s-risk" type="number" step="any" min="0" value="1"></div>
+                <div class="field"><label for="s-entry">Entry price</label><input id="s-entry" type="number" step="any" min="0" value="150"></div>
+                <div class="field"><label for="s-stop">Stop-loss price</label><input id="s-stop" type="number" step="any" min="0" value="120"></div>
+                <div class="field"><label for="s-lot">Lot size</label><input id="s-lot" type="number" step="1" min="1" value="75"></div>
+              </div>
+            </form>
+            <dl class="tool__out" id="sizeOut">
+              <div><dt>Maximum loss</dt><dd data-k="maxLoss">–</dd></div>
+              <div><dt>Risk per unit</dt><dd data-k="perUnit">–</dd></div>
+              <div><dt>Quantity</dt><dd data-k="qty">–</dd></div>
+              <div><dt>Lots</dt><dd data-k="lots">–</dd></div>
+              <div><dt>Capital deployed</dt><dd data-k="deployed">–</dd></div>
+              <div><dt>Loss at stop</dt><dd data-k="actualLoss">–</dd></div>
+            </dl>
+          </article>
+        </div>
+        <p class="tool__note reveal">For education and illustration only. Results are model outputs, not recommendations, and ignore costs, slippage, margin rules and early exercise.</p>
+      </div>
+    </section>
+
+    <section class="section section--slate">
+      <div class="container">
+        <div class="section__head">
+          <p class="label reveal"><span class="label__num">02</span> Member Tools</p>
+          <h2 class="h2 reveal">Coming soon for members.</h2>
+          <p class="lead reveal">Choose the tools you need. Member accounts and subscriptions are on the way.</p>
+        </div>
+        <div class="cards">
+          <article class="card card--locked reveal">
+            <span class="lock" aria-label="Members only"><svg viewBox="0 0 16 16"><rect x="3" y="7" width="10" height="7" rx="1"/><path d="M5.5 7V5a2.5 2.5 0 0 1 5 0v2"/></svg></span>
+            <h3>Strategy Payoff Builder</h3>
+            <p>Combine option legs and view the payoff and Greeks of the whole position at expiry and before it.</p>
+          </article>
+          <article class="card card--locked reveal">
+            <span class="lock" aria-label="Members only"><svg viewBox="0 0 16 16"><rect x="3" y="7" width="10" height="7" rx="1"/><path d="M5.5 7V5a2.5 2.5 0 0 1 5 0v2"/></svg></span>
+            <h3>Volatility Analytics</h3>
+            <p>Implied volatility across strikes and expiries, with historical context.</p>
+          </article>
+          <article class="card card--locked reveal">
+            <span class="lock" aria-label="Members only"><svg viewBox="0 0 16 16"><rect x="3" y="7" width="10" height="7" rx="1"/><path d="M5.5 7V5a2.5 2.5 0 0 1 5 0v2"/></svg></span>
+            <h3>Indicator Suite</h3>
+            <p>A curated set of technical and statistical indicators designed for systematic workflows.</p>
+          </article>
+          <article class="card card--locked reveal">
+            <span class="lock" aria-label="Members only"><svg viewBox="0 0 16 16"><rect x="3" y="7" width="10" height="7" rx="1"/><path d="M5.5 7V5a2.5 2.5 0 0 1 5 0v2"/></svg></span>
+            <h3>Trade Journal</h3>
+            <p>Record trades, tag setups and review your own process over time.</p>
+          </article>
+        </div>
+        <div class="tools-cta reveal">
+          <p>Interested in early access?</p>
+          <a href="contact.html" class="btn btn--gold">Register interest <span aria-hidden="true">&rarr;</span></a>
+        </div>
+      </div>
+    </section>
+
+    <script src="tools.js" defer></script>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__top">
+        <div class="footer__brand">
+          <a href="index.html" class="brand" aria-label="MASK Capital Management, home">
+            <img class="brand__mark" src="assets/logo-mark.webp" alt="" width="44" height="44" loading="lazy">
+            <span class="brand__text">
+              <span class="brand__word">MASK</span>
+              <span class="brand__sub">Capital Management</span>
+            </span>
+          </a>
+          <p>Precision in Strategy. Discipline in Capital.</p>
+        </div>
+        <div class="footer__cols">
+          <nav aria-label="Footer">
+            <p class="footer__label">Firm</p>
+            <a href="about.html">About</a>
+            <a href="strategies.html">Strategies</a>
+            <a href="team.html">Team</a>
+            <a href="trade-tools.html">Trade Tools</a>
+            <a href="contact.html">Contact</a>
+          </nav>
+          <nav aria-label="Legal">
+            <p class="footer__label">Legal</p>
+            <a href="privacy.html">Privacy</a>
+            <a href="terms.html">Terms</a>
+          </nav>
+          <div>
+            <p class="footer__label">Contact</p>
+            <a href="mailto:contact@mask-capital.com">contact@mask-capital.com</a>
+            <a href="backoffice/" class="footer__signin"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="3" y="7" width="10" height="7" rx="1"/><path d="M5.5 7V5a2.5 2.5 0 0 1 5 0v2"/></svg>Back Office Sign In</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer__legal">
+        <p>&copy; <span data-year>2026</span> MASK Capital Management. All rights reserved.</p>
+        <p class="footer__disclaimer">Information on this website describes research and proprietary trading activities and is not investment advice, an offer to manage client funds, or a recommendation to trade securities.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js" defer></script>
+</body>
+</html>

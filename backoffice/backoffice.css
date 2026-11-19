@@ -1,0 +1,80 @@
+/* ================= Back office ================= */
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.btn--sm { padding: 0.7rem 1.1rem; font-size: 0.74rem; }
+.mono { font-variant-numeric: tabular-nums; font-feature-settings: "tnum"; }
+
+/* ---- Sign-in ---- */
+.bo-auth { min-height: 100vh; background: radial-gradient(ellipse 70% 60% at 50% 0%, rgba(197,164,109,0.1), transparent 60%), var(--navy); }
+.auth { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px 16px; gap: 1.6rem; }
+.auth__card { width: 100%; max-width: 420px; background: var(--slate); border: 1px solid var(--line); border-top: 2px solid var(--gold); padding: 2.6rem clamp(1.4rem, 5vw, 2.6rem) 2rem; }
+.auth__brand { display: flex; align-items: center; gap: 0.9rem; margin-bottom: 2.2rem; }
+.auth__brand img { width: 56px; height: 56px; }
+.auth__title { font-family: var(--serif); font-size: 2.4rem; margin: -0.4rem 0 1.8rem; }
+.auth__submit { width: 100%; justify-content: center; margin-top: 0.4rem; }
+.auth .form__status { margin-top: 1rem; min-height: 1.4em; }
+.auth__foot { font-size: 0.8rem; margin: 1.6rem 0 0; padding-top: 1.2rem; border-top: 1px solid var(--line); }
+.auth__back { font-size: 0.85rem; color: var(--mist); }
+.auth__back:hover { color: var(--gold); }
+
+/* ---- App shell ---- */
+.bo-app { min-height: 100vh; background: var(--navy); }
+.bo-top { position: sticky; top: 0; z-index: 10; display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 0.8rem clamp(16px, 3vw, 32px); background: rgba(9,23,37,0.95); border-bottom: 1px solid rgba(197,164,109,0.35); }
+.bo-top .brand__mark { width: 40px; height: 40px; }
+.bo-top__user { display: flex; align-items: center; gap: 0.9rem; font-size: 0.9rem; color: var(--ivory); }
+.bo-badge { font-size: 0.66rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); border: 1px solid rgba(197,164,109,0.5); padding: 0.2rem 0.55rem; }
+.bo-link { background: none; border: 0; padding: 0; font: inherit; font-size: 0.85rem; color: var(--gold); cursor: pointer; border-bottom: 1px solid rgba(197,164,109,0.4); }
+.bo-link:hover { color: var(--ivory); }
+
+.bo-shell { display: grid; grid-template-columns: 220px 1fr; min-height: calc(100vh - 65px); }
+.bo-nav { display: flex; flex-direction: column; gap: 0.2rem; padding: 1.6rem 0.9rem; border-right: 1px solid var(--line); background: rgba(20,40,58,0.35); }
+.bo-nav button { text-align: left; background: none; border: 0; border-left: 2px solid transparent; color: var(--mist); font: inherit; font-size: 0.92rem; padding: 0.7rem 0.9rem; cursor: pointer; transition: color .3s, background .3s; }
+.bo-nav button:hover { color: var(--ivory); background: rgba(170,182,191,0.06); }
+.bo-nav button.is-active { color: var(--ivory); border-left-color: var(--gold); background: rgba(197,164,109,0.08); }
+.bo-nav.is-locked button:not([data-view="account"]) { opacity: 0.35; pointer-events: none; }
+
+.bo-main { padding: clamp(1.6rem, 4vw, 3rem) clamp(16px, 4vw, 3rem); min-width: 0; }
+.bo-h1 { font-family: var(--serif); font-size: clamp(2rem, 3.4vw, 2.6rem); margin-bottom: 0.4rem; }
+.bo-h2 { font-family: var(--serif); font-size: 1.5rem; margin-bottom: 1.2rem; }
+.bo-sub { margin-bottom: 2rem; max-width: 64ch; }
+.bo-head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1.6rem; flex-wrap: wrap; }
+.bo-head .bo-h1 { margin: 0; }
+.bo-alert { border: 1px solid rgba(197,164,109,0.5); border-left: 3px solid var(--gold); background: rgba(197,164,109,0.08); padding: 0.9rem 1.2rem; margin-bottom: 1.8rem; font-size: 0.95rem; color: var(--ivory); }
+
+.bo-tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1rem; }
+.bo-tile { text-align: left; font: inherit; color: inherit; cursor: pointer; background: var(--slate); border: 1px solid var(--line); padding: 1.5rem; display: flex; flex-direction: column; gap: 0.5rem; transition: border-color .3s, transform .3s; position: relative; }
+.bo-tile:hover { border-color: rgba(197,164,109,0.5); transform: translateY(-2px); }
+.bo-tile__k { font-family: var(--serif); font-size: 1.5rem; color: var(--ivory); }
+.bo-tile__v { font-size: 0.9rem; color: var(--mist); }
+.bo-tile__tag { position: absolute; top: 1rem; right: 1rem; font-size: 0.62rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold); }
+.bo-empty { border: 1px dashed var(--line-strong); padding: 3rem; text-align: center; color: var(--mist); }
+
+.bo-panel { background: var(--slate); border: 1px solid var(--line); padding: 1.6rem; margin-bottom: 1.8rem; }
+.bo-panel--narrow { max-width: 460px; }
+.bo-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0 1rem; }
+.bo-hint { font-size: 0.82rem; margin: -0.6rem 0 1.2rem; }
+.bo-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 0.8rem; }
+
+.bo-table-wrap { overflow-x: auto; border: 1px solid var(--line); }
+.bo-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+.bo-table th { text-align: left; font-size: 0.68rem; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--mist); padding: 0.9rem 1rem; background: rgba(20,40,58,0.6); border-bottom: 1px solid var(--line); white-space: nowrap; }
+.bo-table td { padding: 0.85rem 1rem; border-bottom: 1px solid var(--line); color: var(--ivory); vertical-align: middle; }
+.bo-table tr:last-child td { border-bottom: 0; }
+.bo-table tr.is-off td { opacity: 0.55; }
+.bo-table select { font: inherit; font-size: 0.85rem; color: var(--ivory); background: var(--navy); border: 1px solid var(--line-strong); padding: 0.3rem 0.5rem; }
+.bo-row-actions { white-space: nowrap; }
+.bo-row-actions .bo-link + .bo-link { margin-left: 1rem; }
+.bo-pill { font-size: 0.72rem; padding: 0.2rem 0.6rem; border: 1px solid rgba(170,182,191,0.4); color: var(--ivory); white-space: nowrap; }
+.bo-pill--warn { border-color: rgba(197,164,109,0.6); color: var(--gold); }
+.bo-pill--off { color: var(--mist); }
+#usersStatus { margin-top: 1rem; }
+
+@media (max-width: 760px) {
+  .bo-shell { grid-template-columns: 1fr; }
+  .bo-nav { flex-direction: row; overflow-x: auto; padding: 0.5rem; border-right: 0; border-bottom: 1px solid var(--line); }
+  .bo-nav button { white-space: nowrap; border-left: 0; border-bottom: 2px solid transparent; }
+  .bo-nav button.is-active { border-bottom-color: var(--gold); }
+  .bo-top .brand__sub { display: none; }
+  #whoName { display: none; }
+}
+
+/* ---- Footer sign-in link + Trade Tools (public site) live in styles.css ---- */

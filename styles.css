@@ -395,3 +395,28 @@ h1, h2, h3 { margin: 0; font-weight: 400; }
   *, *::before, *::after { animation: none !important; transition: none !important; }
   .js .reveal { opacity: 1; transform: none; }
 }
+
+/* ---------- Footer back office link ---------- */
+.footer__cols a.footer__signin { display: inline-flex; align-items: center; gap: 0.5rem; margin-top: 1.2rem; padding: 0.55rem 0.9rem; border: 1px solid rgba(197,164,109,0.45); color: var(--gold); font-size: 0.8rem; letter-spacing: 0.08em; }
+.footer__cols a.footer__signin:hover { background: var(--gold); color: var(--navy); }
+.footer__signin svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.4; }
+
+/* ---------- Trade Tools ---------- */
+.tools { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+.tool { background: var(--slate); border: 1px solid var(--line); padding: clamp(1.4rem, 3vw, 2.2rem); display: flex; flex-direction: column; }
+.tool__head h3 { font-family: var(--serif); font-size: 1.8rem; margin-bottom: 0.5rem; }
+.tool__head p { font-size: 0.94rem; margin-bottom: 1.6rem; }
+.tool__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 1rem; }
+.tool__grid .field { margin-bottom: 1rem; }
+.tool__out { display: grid; grid-template-columns: repeat(3, 1fr); margin: auto 0 0; border-top: 1px solid rgba(197,164,109,0.4); padding-top: 1.2rem; gap: 1rem 0.8rem; }
+.tool__out dt { font-size: 0.66rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--mist); margin-bottom: 0.3rem; }
+.tool__out dd { margin: 0; font-family: var(--serif); font-size: 1.45rem; color: var(--ivory); font-variant-numeric: tabular-nums; }
+.tool__note { font-size: 0.82rem; margin-top: 1.4rem; max-width: 80ch; }
+.card--locked { opacity: 0.92; }
+.card--locked .lock { position: absolute; top: 1.2rem; right: 1.2rem; color: var(--gold); }
+.card--locked .lock svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.3; }
+.card--locked h3 { margin-top: 2.4rem; }
+.tools-cta { display: flex; align-items: center; gap: 1.4rem; flex-wrap: wrap; margin-top: 2.6rem; }
+.tools-cta p { margin: 0; color: var(--ivory); }
+@media (max-width: 960px) { .tools { grid-template-columns: 1fr; } }
+@media (max-width: 480px) { .tool__grid { grid-template-columns: 1fr; } .tool__out { grid-template-columns: 1fr 1fr; } }

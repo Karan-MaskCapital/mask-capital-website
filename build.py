@@ -16,7 +16,7 @@ from pathlib import Path
 ROOT = Path(__file__).parent
 SRC = ROOT / "src"
 SITE = "https://mask-capital.com"
-NAV_KEYS = ["about", "strategies", "team", "contact"]
+NAV_KEYS = ["about", "strategies", "team", "tools", "contact"]
 
 layout = (SRC / "layout.html").read_text(encoding="utf-8")
 pages = sorted((SRC / "pages").glob("*.html"))

@@ -1,0 +1,113 @@
+<!-- title: Trade Tools | MASK Capital Management -->
+<!-- description: Analytical tools for traders from MASK Capital Management: option Greeks and position sizing, with member tools coming soon. -->
+<!-- nav: tools -->
+
+    <section class="page-hero">
+      <div class="container">
+        <p class="eyebrow reveal">Trade Tools</p>
+        <h1 class="page-hero__title reveal">Analytical tools<br><span class="gold">for disciplined traders.</span></h1>
+        <p class="page-hero__lede reveal">A growing set of calculators and analytics built on the same principles we apply to our own research: measure exposure, size risk deliberately, and let process guide execution.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section__head">
+          <p class="label reveal"><span class="label__num">01</span> Free Tools</p>
+          <h2 class="h2 reveal">Open to everyone.</h2>
+        </div>
+
+        <div class="tools">
+          <!-- Option Greeks -->
+          <article class="tool reveal" id="greeks">
+            <header class="tool__head">
+              <h3>Option Greeks Calculator</h3>
+              <p>Theoretical price and sensitivities using the Black&ndash;Scholes model for European options.</p>
+            </header>
+            <form class="tool__form" id="greeksForm" autocomplete="off">
+              <div class="tool__grid">
+                <div class="field"><label for="g-type">Option type</label>
+                  <select id="g-type"><option value="call">Call (CE)</option><option value="put">Put (PE)</option></select></div>
+                <div class="field"><label for="g-spot">Spot price</label><input id="g-spot" type="number" step="any" value="24000"></div>
+                <div class="field"><label for="g-strike">Strike price</label><input id="g-strike" type="number" step="any" value="24000"></div>
+                <div class="field"><label for="g-days">Days to expiry</label><input id="g-days" type="number" step="any" min="0" value="7"></div>
+                <div class="field"><label for="g-iv">Implied volatility (%)</label><input id="g-iv" type="number" step="any" min="0" value="13"></div>
+                <div class="field"><label for="g-rate">Risk-free rate (%)</label><input id="g-rate" type="number" step="any" value="6.5"></div>
+              </div>
+            </form>
+            <dl class="tool__out" id="greeksOut">
+              <div><dt>Theoretical price</dt><dd data-k="price">–</dd></div>
+              <div><dt>Delta</dt><dd data-k="delta">–</dd></div>
+              <div><dt>Gamma</dt><dd data-k="gamma">–</dd></div>
+              <div><dt>Theta / day</dt><dd data-k="theta">–</dd></div>
+              <div><dt>Vega / 1% IV</dt><dd data-k="vega">–</dd></div>
+              <div><dt>Rho / 1%</dt><dd data-k="rho">–</dd></div>
+            </dl>
+          </article>
+
+          <!-- Position sizing -->
+          <article class="tool reveal" id="sizing">
+            <header class="tool__head">
+              <h3>Position Size Calculator</h3>
+              <p>How large a position can be when the loss at your stop is capped at a chosen share of capital.</p>
+            </header>
+            <form class="tool__form" id="sizeForm" autocomplete="off">
+              <div class="tool__grid">
+                <div class="field"><label for="s-capital">Trading capital</label><input id="s-capital" type="number" step="any" min="0" value="1000000"></div>
+                <div class="field"><label for="s-risk">Risk per trade (%)</label><input id="s-risk" type="number" step="any" min="0" value="1"></div>
+                <div class="field"><label for="s-entry">Entry price</label><input id="s-entry" type="number" step="any" min="0" value="150"></div>
+                <div class="field"><label for="s-stop">Stop-loss price</label><input id="s-stop" type="number" step="any" min="0" value="120"></div>
+                <div class="field"><label for="s-lot">Lot size</label><input id="s-lot" type="number" step="1" min="1" value="75"></div>
+              </div>
+            </form>
+            <dl class="tool__out" id="sizeOut">
+              <div><dt>Maximum loss</dt><dd data-k="maxLoss">–</dd></div>
+              <div><dt>Risk per unit</dt><dd data-k="perUnit">–</dd></div>
+              <div><dt>Quantity</dt><dd data-k="qty">–</dd></div>
+              <div><dt>Lots</dt><dd data-k="lots">–</dd></div>
+              <div><dt>Capital deployed</dt><dd data-k="deployed">–</dd></div>
+              <div><dt>Loss at stop</dt><dd data-k="actualLoss">–</dd></div>
+            </dl>
+          </article>
+        </div>
+        <p class="tool__note reveal">For education and illustration only. Results are model outputs, not recommendations, and ignore costs, slippage, margin rules and early exercise.</p>
+      </div>
+    </section>
+
+    <section class="section section--slate">
+      <div class="container">
+        <div class="section__head">
+          <p class="label reveal"><span class="label__num">02</span> Member Tools</p>
+          <h2 class="h2 reveal">Coming soon for members.</h2>
+          <p class="lead reveal">Choose the tools you need. Member accounts and subscriptions are on the way.</p>
+        </div>
+        <div class="cards">
+          <article class="card card--locked reveal">
+            <span class="lock" aria-label="Members only"><svg viewBox="0 0 16 16"><rect x="3" y="7" width="10" height="7" rx="1"/><path d="M5.5 7V5a2.5 2.5 0 0 1 5 0v2"/></svg></span>
+            <h3>Strategy Payoff Builder</h3>
+            <p>Combine option legs and view the payoff and Greeks of the whole position at expiry and before it.</p>
+          </article>
+          <article class="card card--locked reveal">
+            <span class="lock" aria-label="Members only"><svg viewBox="0 0 16 16"><rect x="3" y="7" width="10" height="7" rx="1"/><path d="M5.5 7V5a2.5 2.5 0 0 1 5 0v2"/></svg></span>
+            <h3>Volatility Analytics</h3>
+            <p>Implied volatility across strikes and expiries, with historical context.</p>
+          </article>
+          <article class="card card--locked reveal">
+            <span class="lock" aria-label="Members only"><svg viewBox="0 0 16 16"><rect x="3" y="7" width="10" height="7" rx="1"/><path d="M5.5 7V5a2.5 2.5 0 0 1 5 0v2"/></svg></span>
+            <h3>Indicator Suite</h3>
+            <p>A curated set of technical and statistical indicators designed for systematic workflows.</p>
+          </article>
+          <article class="card card--locked reveal">
+            <span class="lock" aria-label="Members only"><svg viewBox="0 0 16 16"><rect x="3" y="7" width="10" height="7" rx="1"/><path d="M5.5 7V5a2.5 2.5 0 0 1 5 0v2"/></svg></span>
+            <h3>Trade Journal</h3>
+            <p>Record trades, tag setups and review your own process over time.</p>
+          </article>
+        </div>
+        <div class="tools-cta reveal">
+          <p>Interested in early access?</p>
+          <a href="contact.html" class="btn btn--gold">Register interest <span aria-hidden="true">&rarr;</span></a>
+        </div>
+      </div>
+    </section>
+
+    <script src="tools.js" defer></script>
