@@ -48,16 +48,124 @@
         <h1 class="bo-h1">Welcome, <span id="welcomeName"></span></h1>
         <p class="bo-sub">MASK Capital Management back office.</p>
         <div class="bo-tiles">
-          <button type="button" class="bo-tile" data-goto="tally"><span class="bo-tile__k">Trade Tally</span><span class="bo-tile__v">Daily hisaab, reconciliations and books</span><span class="bo-tile__tag">Coming soon</span></button>
+          <button type="button" class="bo-tile" data-goto="tally"><span class="bo-tile__k">Trade Tally</span><span class="bo-tile__v">Monthly GRD hisaab: trader payouts, Jayesh Mehta and MG shares</span></button>
           <button type="button" class="bo-tile" data-goto="users" data-admin><span class="bo-tile__k">Users</span><span class="bo-tile__v">Create and manage back office staff accounts</span></button>
           <button type="button" class="bo-tile" data-goto="account"><span class="bo-tile__k">My Account</span><span class="bo-tile__v">Change your password</span></button>
         </div>
       </section>
 
       <section class="bo-view" data-view="tally" hidden>
-        <h1 class="bo-h1">Trade Tally</h1>
-        <p class="bo-sub">Trade tallies, hisaab and reconciliations will appear here once the workflows are defined. All records are stored in the MASK Capital Google Sheet.</p>
-        <div class="bo-empty">Module in preparation.</div>
+        <div class="bo-head tt-noprint">
+          <h1 class="bo-h1">Trade Tally <span class="tt-h1sub">GRD hisaab</span></h1>
+          <div class="tt-tabs" role="tablist">
+            <button type="button" data-tt="months" class="is-active">Months</button>
+            <button type="button" data-tt="setup">Setup</button>
+          </div>
+        </div>
+
+        <!-- ===== Months list ===== -->
+        <div class="tt-pane" data-pane="months">
+          <div class="tt-stats" id="ttStats"></div>
+
+          <div class="bo-panel tt-new">
+            <h2 class="bo-h2">Start a new month</h2>
+            <p class="bo-hint">Adds every active trader with their current settings. Losses and unpaid salaries from the previous month carry forward automatically.</p>
+            <form class="tt-inline" id="ttNewForm" novalidate>
+              <div class="field"><label for="ttNewMonth">Month</label><input id="ttNewMonth" type="month" required></div>
+              <div class="field"><label for="ttNewDays">Interest days</label><input id="ttNewDays" type="number" min="0" max="62" placeholder="e.g. 28"></div>
+              <button type="submit" class="btn btn--gold btn--sm">Start month</button>
+              <span class="form__status" id="ttNewStatus" role="status" aria-live="polite"></span>
+            </form>
+          </div>
+
+          <div class="bo-table-wrap">
+            <table class="bo-table tt-table">
+              <thead><tr><th>Month</th><th>Status</th><th class="num">Traders</th><th class="num">NET</th><th class="num">Payable to traders</th><th class="num">Jayesh Mehta</th><th class="num">MG</th><th>Cash received</th></tr></thead>
+              <tbody id="ttMonthsBody"><tr><td colspan="8">Loading…</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- ===== One month ===== -->
+        <div class="tt-pane" data-pane="month" hidden>
+          <button type="button" class="bo-link tt-back tt-noprint" data-back="months">← All months</button>
+          <div class="bo-head">
+            <div>
+              <h2 class="bo-h1" id="ttMonthTitle"></h2>
+              <p class="tt-meta" id="ttMonthMeta"></p>
+            </div>
+            <div class="bo-actions tt-noprint" id="ttMonthActions"></div>
+          </div>
+          <p class="form__status tt-noprint" id="ttMonthStatus" role="status" aria-live="polite"></p>
+
+          <div class="tt-steps tt-noprint" id="ttSteps">
+            <div class="tt-step">
+              <span class="tt-step__n">1</span>
+              <div>
+                <strong>Enter the GRD statement.</strong> Type <em>Before interest</em> and the <em>6.5% interest</em> for each trader in the table (BSE NET, if any, is in the trader's details), or paste the rows copied from the GRD sheet.
+                <details class="tt-paste">
+                  <summary>Paste from GRD statement</summary>
+                  <textarea id="ttPaste" rows="5" placeholder="JS-MANTHAN RATHOD GCOM41	857689	-336575	-18916	502198&#10;JS-JYOTI SADARANGANI	814485	-381452	-18916	414117"></textarea>
+                  <div class="bo-actions"><button type="button" class="btn btn--line btn--sm" id="ttPasteBtn">Fill the table</button><span class="form__status" id="ttPasteStatus"></span></div>
+                </details>
+              </div>
+            </div>
+            <div class="tt-step"><span class="tt-step__n">2</span><div><strong>Check the results.</strong> Click a trader's name to see exactly how their payout is worked out, and to change costs, carry-forwards or add an adjustment.</div></div>
+            <div class="tt-step"><span class="tt-step__n">3</span><div><strong>Save, then finalise.</strong> Finalising locks the month. Tick <em>Cash</em> as payments are settled.</div></div>
+          </div>
+
+          <div class="tt-days tt-noprint" id="ttDaysWrap">
+            <label for="ttDays">Interest days this month</label>
+            <input id="ttDays" type="number" min="0" max="62">
+            <span class="bo-hint">Used only to estimate interest when the GRD figure is missing.</span>
+          </div>
+
+          <div class="bo-table-wrap">
+            <table class="bo-table tt-table tt-grid">
+              <thead>
+                <tr>
+                  <th>Trader</th>
+                  <th class="num tt-in">Gross<br><small>before interest</small></th>
+                  <th class="num tt-in">Interest<br><small>GRD 6.5%</small></th>
+                  <th class="num">NET</th>
+                  <th class="num">Payable</th>
+                  <th class="num">Salary</th>
+                  <th class="num">Incentive<br><small>/ prof. fees</small></th>
+                  <th class="num">Jayesh Mehta</th>
+                  <th class="num">MG</th>
+                  <th>Cash</th>
+                </tr>
+              </thead>
+              <tbody id="ttGridBody"></tbody>
+              <tfoot id="ttGridFoot"></tfoot>
+            </table>
+          </div>
+          <p class="bo-hint tt-legend">Jayesh Mehta = NET × (80% − trader %). MG = NET × 2%, paid out of the Jayesh Mehta share. Both apply only when NET is positive.</p>
+        </div>
+
+        <!-- ===== Setup tools ===== -->
+        <div class="tt-pane" data-pane="setup" hidden>
+          <p class="bo-sub">Everything the tally uses, one tool each. Every change needs a short comment and is kept in that tool's history. Only admins can make changes.</p>
+          <div class="st-layout">
+            <nav class="st-menu" id="stMenu" aria-label="Setup tools"></nav>
+            <div class="st-body" id="stBody"></div>
+          </div>
+        </div>
+
+        <!-- ===== Trader statement ===== -->
+        <div class="tt-pane" data-pane="statement" hidden>
+          <button type="button" class="bo-link tt-back tt-noprint" data-back="setup">← Setup</button>
+          <div class="bo-head">
+            <div><h2 class="bo-h1" id="ttStmtTitle"></h2><p class="tt-meta" id="ttStmtMeta"></p></div>
+            <div class="bo-actions tt-noprint"><button type="button" class="btn btn--line btn--sm" onclick="window.print()">Print</button></div>
+          </div>
+          <div class="bo-table-wrap">
+            <table class="bo-table tt-table">
+              <thead><tr><th>Month</th><th class="num">Gross</th><th class="num">Loss C/F</th><th class="num">NET</th><th class="num">Trader %</th><th class="num">Payable</th><th class="num">Salary</th><th class="num">Incentive / fees</th><th>Cash</th></tr></thead>
+              <tbody id="ttStmtBody"></tbody>
+            </table>
+          </div>
+        </div>
       </section>
 
       <section class="bo-view" data-view="users" hidden>
@@ -120,6 +228,10 @@
   </div>
 
   <script src="config.js"></script>
+  <script src="tally-calc.js"></script>
   <script src="bo.js"></script>
+  <script src="tally.js"></script>
+  <script src="setup.js"></script>
+  <script src="pdf.js"></script>
 </body>
 </html>

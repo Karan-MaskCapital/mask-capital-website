@@ -87,7 +87,7 @@ h1, h2, h3 { margin: 0; font-weight: 400; }
 .btn:hover span { transform: translateX(4px); }
 .btn--gold { border-color: var(--gold); color: var(--gold); background: transparent; }
 .btn--gold:hover { background: var(--gold); color: var(--navy); }
-.btn--line { border-color: var(--line-strong); color: var(--ivory); }
+.btn--line { border-color: var(--line-strong); color: var(--ivory); background: transparent; }
 .btn--line:hover { border-color: var(--ivory); }
 
 .link-arrow {

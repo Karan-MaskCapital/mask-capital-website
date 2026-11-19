@@ -78,3 +78,127 @@
 }
 
 /* ---- Footer sign-in link + Trade Tools (public site) live in styles.css ---- */
+
+/* ================= Trade Tally ================= */
+.tt-h1sub { font-family: var(--sans, Inter, sans-serif); font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); margin-left: 0.6rem; vertical-align: middle; }
+.tt-tabs { display: inline-flex; border: 1px solid var(--line-strong); }
+.tt-tabs button { background: none; border: 0; color: var(--mist); font: inherit; font-size: 0.85rem; padding: 0.55rem 1.1rem; cursor: pointer; }
+.tt-tabs button + button { border-left: 1px solid var(--line-strong); }
+.tt-tabs button.is-active { background: rgba(197,164,109,0.14); color: var(--ivory); }
+.tt-back { margin-bottom: 1.2rem; display: inline-block; }
+.tt-meta { margin: 0.5rem 0 0; font-size: 0.88rem; color: var(--mist); display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; }
+.tt-dim { color: var(--mist); opacity: 0.8; }
+.tt-neg { color: #e08a7a; }
+
+.tt-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 1rem; margin-bottom: 1.6rem; }
+.tt-stat { background: var(--slate); border: 1px solid var(--line); border-top: 2px solid var(--gold); padding: 1.1rem 1.2rem; display: flex; flex-direction: column; gap: 0.25rem; }
+.tt-stat__k { font-size: 0.68rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--mist); }
+.tt-stat__v { font-family: var(--serif); font-size: 1.7rem; color: var(--ivory); font-variant-numeric: tabular-nums; }
+.tt-stat__s { font-size: 0.8rem; color: var(--mist); }
+
+.tt-inline { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 0.6rem 1rem; }
+.tt-inline .field { margin: 0; min-width: 170px; }
+.tt-new .bo-hint { margin: -0.6rem 0 1rem; }
+
+.tt-table td.num, .tt-table th.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.tt-table th small { font-size: 0.6rem; letter-spacing: 0.08em; text-transform: none; opacity: 0.8; }
+.tt-table tfoot td { font-weight: 600; background: rgba(20,40,58,0.6); border-top: 1px solid var(--line-strong); white-space: nowrap; }
+.tt-click { cursor: pointer; }
+.tt-click:hover td { background: rgba(197,164,109,0.06); }
+.tt-totrow td { font-weight: 600; border-top: 1px solid var(--line-strong); }
+.tt-grid th.tt-in { color: var(--gold); }
+.tt-grid th { padding: 0.8rem 0.55rem; letter-spacing: 0.1em; }
+.tt-grid td { padding: 0.5rem 0.55rem; }
+.tt-grid td:first-child, .tt-grid th:first-child { padding-left: 1rem; }
+.tt-grid .tt-name { white-space: nowrap; }
+
+.tt-num { width: 7.4rem; max-width: 100%; text-align: right; font: inherit; font-size: 0.9rem; font-variant-numeric: tabular-nums; color: var(--ivory); background: var(--navy); border: 1px solid var(--line-strong); padding: 0.4rem 0.55rem; }
+.tt-num:focus, .tt-f input:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 2px rgba(197,164,109,0.25); }
+.tt-num::placeholder { color: var(--mist); opacity: 0.6; font-size: 0.8rem; }
+
+.tt-name { background: none; border: 0; padding: 0; font: inherit; color: var(--ivory); cursor: pointer; text-align: left; display: inline-flex; gap: 0.45rem; align-items: center; }
+.tt-name:hover { color: var(--gold); }
+.tt-caret { font-size: 0.7rem; color: var(--gold); transition: transform .2s; display: inline-block; }
+.tt-row.is-open .tt-caret { transform: rotate(90deg); }
+.tt-note, .tt-warn { margin-left: 0.45rem; font-size: 0.75rem; }
+.tt-note { color: var(--mist); }
+.tt-warn { display: inline-grid; place-items: center; width: 1.1rem; height: 1.1rem; border-radius: 50%; background: #c9764f; color: #fff; font-weight: 700; }
+.tt-detail > td { background: rgba(9,23,37,0.55); padding: 1.2rem 1.4rem !important; }
+.tt-detailbox { display: grid; grid-template-columns: minmax(280px, 420px) 1fr; gap: 1.6rem 2.4rem; align-items: start; }
+.tt-calc { font-size: 0.88rem; border: 1px solid var(--line); background: var(--slate); padding: 0.9rem 1.1rem; }
+.tt-calc__l { display: flex; justify-content: space-between; gap: 1rem; padding: 0.22rem 0; font-variant-numeric: tabular-nums; }
+.tt-calc__l i { display: inline-block; width: 1rem; color: var(--gold); font-style: normal; }
+.tt-calc__l.is-total { border-top: 1px solid var(--line-strong); margin-top: 0.25rem; padding-top: 0.45rem; font-weight: 600; color: var(--ivory); }
+.tt-calc__sub { margin-top: 0.7rem; padding-top: 0.6rem; border-top: 1px dashed var(--line-strong); font-size: 0.8rem; color: var(--mist); }
+.tt-fields { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 0.8rem 1rem; align-content: start; }
+.tt-f { display: flex; flex-direction: column; gap: 0.3rem; font-size: 0.72rem; letter-spacing: 0.06em; color: var(--mist); }
+.tt-f input { width: 100%; font: inherit; font-size: 0.9rem; letter-spacing: 0; color: var(--ivory); background: var(--navy); border: 1px solid var(--line-strong); padding: 0.4rem 0.55rem; }
+.tt-f--wide { grid-column: 1 / -1; }
+.tt-fields .bo-link { justify-self: start; grid-column: 1 / -1; }
+.tt-cash input { width: 1.1rem; height: 1.1rem; accent-color: var(--gold); cursor: pointer; }
+.tt-cash input:disabled { cursor: not-allowed; opacity: 0.4; }
+
+.tt-steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin: 0.4rem 0 1.4rem; }
+.tt-step { display: flex; gap: 0.8rem; font-size: 0.88rem; color: var(--mist); background: rgba(20,40,58,0.45); border: 1px solid var(--line); padding: 0.9rem 1rem; }
+.tt-step strong { color: var(--ivory); font-weight: 500; }
+.tt-step__n { flex: none; width: 1.6rem; height: 1.6rem; border: 1px solid var(--gold); color: var(--gold); display: grid; place-items: center; font-size: 0.8rem; }
+.tt-paste { margin-top: 0.7rem; }
+.tt-paste summary { cursor: pointer; color: var(--gold); font-size: 0.85rem; }
+.tt-paste textarea { width: 100%; margin: 0.6rem 0; font: 0.8rem/1.5 ui-monospace, Consolas, monospace; color: var(--ivory); background: var(--navy); border: 1px solid var(--line-strong); padding: 0.6rem; resize: vertical; }
+.tt-days { display: flex; align-items: center; flex-wrap: wrap; gap: 0.4rem 0.8rem; margin-bottom: 1rem; font-size: 0.85rem; color: var(--mist); }
+.tt-days input { width: 5rem; font: inherit; color: var(--ivory); background: var(--navy); border: 1px solid var(--line-strong); padding: 0.35rem 0.5rem; }
+.tt-days .bo-hint { margin: 0; }
+.tt-legend { margin-top: 0.9rem; }
+.tt-tgrid { gap: 0 1rem; }
+
+@media (max-width: 900px) { .tt-detailbox { grid-template-columns: 1fr; } }
+
+@media print {
+  .bo-top, .bo-nav, .tt-noprint, .tt-steps, .tt-days, #mustChange { display: none !important; }
+  .bo-shell { display: block; }
+  body, .bo-app, .bo-main, .bo-table td, .bo-table th, .tt-calc { background: #fff !important; color: #000 !important; }
+  .bo-table th, .bo-table td { border-color: #bbb !important; }
+  .tt-num { border: 0; background: none; color: #000; width: auto; }
+  .tt-neg { color: #b00020; }
+  .bo-table-wrap { overflow: visible; border-color: #bbb; }
+}
+.tt-sub { font-size: 0.7rem; color: var(--gold); margin-top: 0.2rem; min-height: 0; white-space: nowrap; }
+
+/* ---- Setup tools ---- */
+.st-layout { display: grid; grid-template-columns: 220px 1fr; gap: 1.6rem; align-items: start; }
+.st-menu { display: flex; flex-direction: column; gap: 0.3rem; position: sticky; top: 90px; }
+.st-menu button { display: flex; align-items: center; gap: 0.7rem; text-align: left; background: var(--slate); border: 1px solid var(--line); color: var(--mist); font: inherit; font-size: 0.9rem; padding: 0.75rem 0.9rem; cursor: pointer; transition: border-color .2s, color .2s; }
+.st-menu button:hover { color: var(--ivory); border-color: rgba(197,164,109,0.4); }
+.st-menu button.is-active { color: var(--ivory); border-color: var(--gold); background: rgba(197,164,109,0.1); }
+.st-ic { width: 1.6rem; height: 1.6rem; display: grid; place-items: center; border: 1px solid rgba(197,164,109,0.45); color: var(--gold); font-size: 0.8rem; flex: none; }
+.st-body { min-width: 0; }
+.st-head { align-items: flex-start; margin-bottom: 0.6rem; }
+.st-desc { margin: 0.2rem 0 0; max-width: 70ch; }
+.st-table td { vertical-align: middle; }
+.st-table input:not([type=checkbox]), .st-table select { font: inherit; font-size: 0.88rem; color: var(--ivory); background: var(--navy); border: 1px solid var(--line-strong); padding: 0.4rem 0.5rem; max-width: 100%; }
+.st-table input:not(.tt-num):not([type=checkbox]) { width: 100%; min-width: 8rem; }
+.st-table .tt-num { width: 8.5rem; }
+.st-edit td { background: rgba(197,164,109,0.06); }
+.st-edit--foot td { border-top: 0; }
+.st-commit { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 0.8rem; }
+.st-comment { flex: 1 1 320px; }
+.st-chip { display: inline-block; font-size: 0.72rem; padding: 0.12rem 0.45rem; border: 1px solid rgba(197,164,109,0.45); color: var(--ivory); margin: 0.1rem 0; white-space: nowrap; }
+.st-checks { display: grid; grid-template-columns: repeat(2, minmax(120px, auto)); gap: 0.25rem 0.9rem; font-size: 0.82rem; }
+.st-checks label { white-space: nowrap; cursor: pointer; }
+.st-checks input { accent-color: var(--gold); }
+.st-h3 { font-family: var(--serif); font-size: 1.3rem; font-weight: 500; margin: 2.2rem 0 0.8rem; }
+.st-log { list-style: none; margin: 0; padding: 0; border: 1px solid var(--line); max-height: 420px; overflow: auto; }
+.st-log li { padding: 0.8rem 1rem; border-bottom: 1px solid var(--line); font-size: 0.86rem; }
+.st-log li:last-child { border-bottom: 0; }
+.st-log__top { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+.st-log__chg { color: var(--mist); margin: 0.2rem 0; font-variant-numeric: tabular-nums; }
+.st-log__c { color: var(--gold); font-style: italic; }
+@media (max-width: 980px) { .st-layout { grid-template-columns: 1fr; } .st-menu { flex-direction: row; overflow-x: auto; position: static; } .st-menu button { white-space: nowrap; } }
+.tt-pdf { display: inline-block; margin-top: 0.8rem; }
+.st-layout { grid-template-columns: 190px 1fr; gap: 1.2rem; }
+.st-table th { letter-spacing: 0.08em; padding: 0.8rem 0.6rem; }
+.st-table td { padding: 0.65rem 0.6rem; }
+.st-table td:first-child { white-space: nowrap; }
+.st-table td:has(.st-chip), .st-table td:has(.st-checks) { min-width: 230px; white-space: normal; }
+.st-chip { margin: 0.12rem 0.1rem; }
+.st-ic { font-size: 0.66rem; font-weight: 600; }

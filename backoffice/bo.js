@@ -55,13 +55,16 @@
   var navBtns = document.querySelectorAll(".bo-nav button");
 
   function show(name) {
+    var sub = String(name || "").split("/"); name = sub[0]; sub = sub[1] || "";
+    if (!document.querySelector('.bo-view[data-view="' + name + '"]')) name = "overview";
     if (me && me.must_change) name = "account";
     if (me && me.role !== "admin" && (name === "users" || name === "audit")) name = "overview";
     views.forEach(function (v) { v.hidden = v.getAttribute("data-view") !== name; });
     navBtns.forEach(function (b) { b.classList.toggle("is-active", b.getAttribute("data-view") === name); });
     if (name === "users") loadUsers();
     if (name === "audit") loadAudit();
-    try { history.replaceState(null, "", "#" + name); } catch (e) {}
+    try { history.replaceState(null, "", "#" + name + (name === "tally" && sub ? "/" + sub : "")); } catch (e) {}
+    if (name === "tally" && window.BOTally) window.BOTally.open(sub);
     $("main").focus && $("main").scrollTo && $("main").scrollTo(0, 0);
   }
 
@@ -87,6 +90,8 @@
     document.body.hidden = false;
     show((location.hash || "#overview").slice(1));
   }).catch(function () {});
+
+  window.BO = { api: api, esc: esc, status: status, me: function () { return me; } };
 
   /* ----- change password ----- */
   $("pwForm").addEventListener("submit", function (e) {
