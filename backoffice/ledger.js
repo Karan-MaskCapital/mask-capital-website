@@ -44,6 +44,7 @@
       j.entries.forEach(function (e) { var t = j.byTrader[e.trader_id]; if (t) t.entries.push(e); });
       j.licences.forEach(function (l) { var t = j.byTrader[l.trader_id]; if (t) t.licenceList.push(l); });
       j.accounts.forEach(function (a) { var t = j.byTrader[a.trader_id]; if (t) t.accountList.push(a); });
+      (j.exits || []).forEach(function (x) { var t = j.byTrader[x.trader_id]; if (t && !t.exit && !x.reopened_at) t.exit = x; });
       j.months = []; var seen = {};
       j.entries.forEach(function (e) { if (!seen[e.month]) { seen[e.month] = 1; j.months.push(e.month); } });
       D = j; return j;
@@ -99,6 +100,7 @@
     });
     var off = D.traders.filter(function (t) { return !t.active; }).length;
     $("ldInactive").textContent = tf.inactive ? "Hide former traders" : "Show former traders (" + off + ")";
+    $("ldAdd").hidden = !isAdmin();
     $("ldCards").innerHTML = list.map(card).join("") || '<div class="bo-empty">No traders match.</div>';
   }
   function card(t) {
@@ -121,7 +123,9 @@
       (e ? '<div class="ld-card__latest"><span class="ld-card__lbl">' + mLabel(e.month) + (e.status === "draft" ? " · draft" : "") + "</span>" +
         '<div class="ld-card__nums"><span>NET <strong>' + money(e.net_total) + '</strong></span><span>Payable <strong>' + money(e.payable) + "</strong></span></div></div>" : "") +
       '<div class="ld-card__chart">' + bars(settled(t), 240, 46) + "</div>" +
-      '<footer class="ld-card__foot"><span><span class="ld-card__lbl">Carries forward</span> ' + (cfTxt === "Nothing" ? '<span class="tt-dim">nothing</span>' : '<span class="tt-neg">' + esc(cfTxt) + "</span>") + "</span>" +
+      (!t.active && t.exit ? '<footer class="ld-card__foot"><span><span class="ld-card__lbl">Closed</span> ' + (t.exit.left_month ? esc(mLabel(t.exit.left_month)) : "") + "</span>" +
+        (t.exit.settled ? '<span class="bo-pill">Settled</span>' : '<span class="bo-pill bo-pill--warn">Settlement open</span>') + "</footer>" : "") +
+      '<footer class="ld-card__foot"><span><span class="ld-card__lbl">' + (t.active ? "Carries forward" : "Left with") + "</span> " + (cfTxt === "Nothing" ? '<span class="tt-dim">nothing</span>' : '<span class="tt-neg">' + esc(cfTxt) + "</span>") + "</span>" +
         '<span><span class="ld-card__lbl">' + t.entries.length + " months</span> NET " + esc(short(life.net)) + "</span></footer>" +
       "</article>";
   }
@@ -154,6 +158,9 @@
       t.accountList.map(function (a) { return '<span class="st-chip" title="' + esc((a.holder ? "Held by " + a.holder + " · " : "") + (a.exchange || "")) + '">' + esc(a.code) + "</span>"; }).join("") +
       t.licenceList.map(function (l) { return '<span class="st-chip ld-chip--lic">' + esc(l.name) + "</span>"; }).join("");
     $("ldtEdit").hidden = !isAdmin();
+    $("ldtClose").hidden = !isAdmin() || !t.active;
+    $("ldtContact").innerHTML = contactHtml(t);
+    $("ldtExit").innerHTML = window.BOPeople ? window.BOPeople.exitPanel(t) : "";
 
     var years = []; t.entries.forEach(function (e) { var y = e.month.slice(0, 4); if (years.indexOf(y) < 0) years.push(y); });
     $("ldtYears").innerHTML = ["all"].concat(years).map(function (y) {
@@ -175,7 +182,7 @@
       stat("Paid to trader", short(s.payable), "total payable") +
       stat(N(t.salary) || s.salary ? "Salary · incentive" : "Professional fees", N(t.salary) || s.salary ? short(s.salary) + " · " + short(s.inc) : short(s.inc), "") +
       stat("Jayesh Mehta", short(s.jm), "MG " + short(s.mg)) +
-      (latest ? stat("Carries forward", (function () { var c = carry(t); return c && (c.loss || c.salary) ? short(c.loss + c.salary) : "Nothing"; })(), "into the next month") : "");
+      (latest ? stat(t.active ? "Carries forward" : "Left with", (function () { var c = carry(t); return c && (c.loss || c.salary) ? short(c.loss + c.salary) : "Nothing"; })(), t.active ? "into the next month" : "loss + unrecovered salary") : "");
     $("ldtChart").innerHTML = rows.length > 1 ? '<div class="ld-chart__h"><span>Monthly NET</span><span class="tt-dim">' + (rows.length > 36 ? "last 36 months · " : "") + "hover a bar for the figure, click to open the month</span></div>" + bars(rows, 900, 120, { max: 36, click: true }) : "";
     $("ldtBody").innerHTML = rows.map(function (e) {
       return '<tr class="tt-click" data-month="' + e.month + '">' +
@@ -188,6 +195,15 @@
         '<td class="tt-noprint"><button type="button" class="ld-ic" data-pdf="' + e.month + '" title="Download ' + esc(mLabel(e.month)) + ' trader sheet (PDF)" aria-label="Download trader sheet">PDF</button></td></tr>';
     }).join("") || '<tr><td colspan="15">No months yet.</td></tr>';
     $("ldtFoot").innerHTML = rows.length ? "<tr><td>Total</td>" + num(s.gross) + num(s.loss) + num(s.interest) + num(s.costs) + num(s.bse) + num(s.net) + "<td></td>" + "<td></td>" + num(s.payable) + num(s.salary) + num(s.inc) + num(s.jm) + "<td></td><td></td></tr>" : "";
+  }
+  function contactHtml(t) {
+    var bits = [];
+    if (t.joined_month) bits.push("Joined " + esc(mLabel(t.joined_month)));
+    if (t.phone) bits.push('<a href="tel:' + esc(t.phone) + '">' + esc(t.phone) + "</a>");
+    if (t.email) bits.push('<a href="mailto:' + esc(t.email) + '">' + esc(t.email) + "</a>");
+    if (t.pan) bits.push("PAN " + esc(t.pan));
+    if (t.bank_account) bits.push(esc((t.bank_name ? t.bank_name + " " : "") + "a/c " + t.bank_account + (t.bank_ifsc ? " · " + t.bank_ifsc : "")));
+    return bits.length ? bits.map(function (b) { return "<span>" + b + "</span>"; }).join("") : (isAdmin() ? '<span class="tt-dim">No contact or bank details yet. </span><button type="button" class="bo-link" data-go-setup="contact">Add them</button>' : "");
   }
   function num(v) { return '<td class="num">' + money(v) + "</td>"; }
   function stat(k, v, sub, neg) { return '<div class="tt-stat"><span class="tt-stat__k">' + esc(k) + '</span><span class="tt-stat__v' + (neg ? " tt-neg" : "") + '">' + esc(v) + '</span><span class="tt-stat__s">' + esc(sub || "") + "</span></div>"; }
@@ -215,6 +231,9 @@
   $("ldtChart").addEventListener("click", function (e) { var r = e.target.closest("[data-month]"); if (r) go(r.getAttribute("data-month")); });
   $("ldtBody").addEventListener("change", onCash);
   $("ldtEdit").addEventListener("click", function () { go("setup:traders"); });
+  $("ldtClose").addEventListener("click", function () { go("close:" + cur.id); });
+  $("ldtContact").addEventListener("click", function (e) { if (e.target.closest("[data-go-setup]")) go("setup:contact"); });
+  $("ldAdd").addEventListener("click", function () { go("new-trader"); });
   $("ldtCsv").addEventListener("click", function () { var t = D.byTrader[cur.id]; csv(traderRows(), t.name + (cur.year === "all" ? "" : " " + cur.year), true); });
   $("ldtPdf").addEventListener("click", function () { var t = D.byTrader[cur.id]; ledgerPdf(traderRows(), t.name + " - Ledger" + (cur.year === "all" ? "" : " " + cur.year), true, $("ldtStatus")); });
 
@@ -395,5 +414,7 @@
   window.BOLedger = {
     traders: openTraders, trader: openTrader, ledger: openLedger, home: home,
     invalidate: function () { D = null; },
+    load: load, carry: function (t) { return carry(t); }, latestOf: function (t) { return latestOf(t); },
+    refreshTrader: function () { if (cur.id) renderTrader(); },
   };
 })();

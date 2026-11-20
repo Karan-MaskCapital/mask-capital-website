@@ -312,3 +312,69 @@ input.ld-input[type=month] { color-scheme: dark; }
   .ld-scroll { max-height: none; overflow: visible; }
   .ld-chart, .tt-stat, .ld-sum { background: #fff !important; color: #000 !important; }
 }
+
+/* ================= Add trader / close account forms ================= */
+.pf-intro .bo-sub { margin-bottom: 1.4rem; }
+.pf-layout { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 1.6rem; align-items: start; }
+.pf-form { display: flex; flex-direction: column; gap: 1rem; min-width: 0; }
+.pf-sec { background: var(--slate); border: 1px solid var(--line); padding: 1.2rem 1.3rem 1.3rem; }
+.pf-sec__h { display: flex; gap: 0.9rem; align-items: flex-start; margin-bottom: 1rem; }
+.pf-sec__h h3 { font-family: var(--serif); font-size: 1.3rem; font-weight: 500; color: var(--ivory); margin: 0; }
+.pf-sec__h p { margin: 0.2rem 0 0; font-size: 0.84rem; color: var(--mist); max-width: 70ch; }
+.pf-sec__n { flex: none; width: 1.7rem; height: 1.7rem; display: grid; place-items: center; border: 1px solid var(--gold); color: var(--gold); font-size: 0.8rem; margin-top: 0.15rem; }
+.pf-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.9rem 1rem; }
+.pf { display: flex; flex-direction: column; gap: 0.35rem; min-width: 0; }
+.pf--wide { grid-column: 1 / -1; }
+.pf__l { font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mist); }
+.pf__h { font-size: 0.75rem; color: var(--mist); opacity: 0.85; }
+.pf .ld-input { width: 100%; }
+.pf--check { flex-direction: row; align-items: center; gap: 0.6rem; font-size: 0.88rem; color: var(--ivory); cursor: pointer; align-self: end; padding-bottom: 0.5rem; }
+.pf--check input { width: 1.05rem; height: 1.05rem; accent-color: var(--gold); flex: none; }
+.pf-lic { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 0.5rem; }
+.pf-licbox { display: flex; align-items: center; gap: 0.55rem; padding: 0.55rem 0.7rem; border: 1px solid var(--line-strong); background: rgba(9,23,37,0.5); cursor: pointer; font-size: 0.86rem; color: var(--ivory); transition: border-color .2s, background .2s; }
+.pf-licbox:has(input:checked) { border-color: var(--gold); background: rgba(197,164,109,0.1); }
+.pf-licbox input { accent-color: var(--gold); }
+.pf-licbox small { margin-left: auto; color: var(--mist); font-variant-numeric: tabular-nums; }
+.pf-accts { display: flex; flex-direction: column; gap: 0.5rem; }
+.pf-acct { display: grid; grid-template-columns: 1.1fr 0.6fr 0.8fr 1.4fr auto; gap: 0.5rem; align-items: center; }
+.pf-add { justify-self: start; }
+.pf-actions { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+.pf-preview { position: sticky; top: 90px; background: linear-gradient(180deg, rgba(197,164,109,0.1), rgba(20,40,58,0.7) 40%); border: 1px solid rgba(197,164,109,0.4); padding: 1.2rem 1.25rem; display: flex; flex-direction: column; gap: 1rem; }
+.pf-pv__name { font-family: var(--serif); font-size: 1.5rem; font-weight: 500; margin: 0.1rem 0 0; color: var(--ivory); }
+.pf-pv__block { border-top: 1px solid var(--line); padding-top: 0.75rem; display: flex; flex-direction: column; gap: 0.3rem; }
+.pf-pv__k { font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mist); margin-bottom: 0.15rem; }
+.pf-pv__r { display: flex; justify-content: space-between; gap: 1rem; font-size: 0.88rem; color: var(--ivory); font-variant-numeric: tabular-nums; }
+.pf-pv__r.is-strong { font-weight: 600; border-top: 1px dashed var(--line-strong); padding-top: 0.3rem; }
+.pf-pv__s { margin: 0; font-size: 0.82rem; color: var(--mist); }
+.pf-pv__warn { border: 1px solid rgba(224,138,122,0.5); background: rgba(224,138,122,0.08); padding: 0.7rem 0.8rem; font-size: 0.82rem; color: #f0b3a7; }
+.pf-pv__warn p { margin: 0; }
+.pf-pv__warn p + p { margin-top: 0.4rem; }
+.pf-checks { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.55rem; border-top: 1px solid var(--line); padding-top: 0.8rem; }
+.pf-checks li { display: flex; flex-direction: column; gap: 0.15rem; font-size: 0.82rem; color: var(--mist); padding-left: 1.4rem; position: relative; }
+.pf-checks li::before { position: absolute; left: 0; top: 0.05rem; font-size: 0.8rem; }
+.pf-checks li.is-ok::before { content: "✓"; color: var(--gold); }
+.pf-checks li.is-warn::before { content: "!"; color: #e08a7a; font-weight: 700; left: 0.25rem; }
+.pf-checks strong { color: var(--ivory); font-weight: 500; }
+
+/* closed-account panel on a trader page */
+.pf-exit { border: 1px solid var(--line-strong); border-left: 3px solid var(--mist); background: rgba(20,40,58,0.55); padding: 1.1rem 1.3rem; margin-bottom: 1.4rem; display: flex; flex-direction: column; gap: 0.9rem; }
+.pf-exit.is-open { border-left-color: #e08a7a; }
+.pf-exit__h { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; flex-wrap: wrap; }
+.pf-exit__h h3 { font-family: var(--serif); font-size: 1.35rem; font-weight: 500; margin: 0.15rem 0 0; color: var(--ivory); }
+.pf-exit__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0.8rem; margin: 0; }
+.pf-exit__grid dt { font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mist); }
+.pf-exit__grid dd { margin: 0.2rem 0 0; font-size: 1rem; color: var(--ivory); font-variant-numeric: tabular-nums; }
+.pf-exit__note { margin: 0; font-size: 0.85rem; color: var(--mist); font-style: italic; }
+.ld-contact { margin-top: 0.3rem; }
+.ld-contact span + span::before { content: "·"; margin-right: 0.5rem; color: var(--mist); }
+.ld-contact a { color: var(--ivory); }
+.ld-danger { border-color: rgba(224,138,122,0.6) !important; color: #f0b3a7 !important; }
+.ld-danger:hover { background: rgba(224,138,122,0.12) !important; }
+
+@media (max-width: 1000px) {
+  .pf-layout { grid-template-columns: 1fr; }
+  .pf-preview { position: static; order: -1; }
+  .pf-acct { grid-template-columns: 1fr 1fr; }
+}
+
+[hidden] { display: none !important; }

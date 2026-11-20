@@ -38,7 +38,7 @@
   function setHash(h) { try { history.replaceState(null, "", "#tally" + (h ? "/" + h : "")); } catch (e) {} }
   function pane(name) {
     document.querySelectorAll(".tt-pane").forEach(function (p) { p.hidden = p.getAttribute("data-pane") !== name; });
-    var tab = name === "month" ? "months" : name === "trader" ? "traders" : name;
+    var tab = name === "month" ? "months" : /^(trader|newtrader|close)$/.test(name) ? "traders" : name;
     document.querySelectorAll(".tt-tabs button").forEach(function (b) { b.classList.toggle("is-active", b.getAttribute("data-tt") === tab); });
     current.pane = name;
     window.scrollTo(0, 0);
@@ -448,6 +448,8 @@
     if (/^setup/.test(sub)) return openSetup(sub.split(":")[1] || "");
     if (sub === "traders") { pane("traders"); setHash("traders"); return window.BOLedger.traders(true); }
     if (/^trader:\d+$/.test(sub)) { pane("trader"); setHash(sub); return window.BOLedger.trader(+sub.split(":")[1]); }
+    if (sub === "new-trader") { pane("newtrader"); setHash(sub); return window.BOPeople.openNew(); }
+    if (/^close:\d+$/.test(sub)) { pane("close"); setHash(sub); return window.BOPeople.openClose(+sub.split(":")[1]); }
     if (sub === "ledger") { pane("ledger"); setHash("ledger"); return window.BOLedger.ledger(true); }
     loadMonths();
   }

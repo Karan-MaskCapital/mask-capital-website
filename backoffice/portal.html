@@ -167,6 +167,7 @@
             <div class="ld-bar__r">
               <input type="search" id="ldSearch" class="ld-input" placeholder="Search traders" aria-label="Search traders">
               <button type="button" class="bo-link" id="ldInactive"></button>
+              <button type="button" class="btn btn--gold btn--sm" id="ldAdd" hidden>+ Add trader</button>
             </div>
           </div>
           <div class="ld-cards" id="ldCards"></div>
@@ -179,15 +180,18 @@
             <div>
               <h2 class="bo-h1" id="ldtName"></h2>
               <p class="tt-meta" id="ldtMeta"></p>
+              <p class="tt-meta ld-contact" id="ldtContact"></p>
               <div class="ld-chips" id="ldtChips"></div>
             </div>
             <div class="bo-actions tt-noprint">
               <button type="button" class="btn btn--line btn--sm" id="ldtEdit">Edit settings</button>
+              <button type="button" class="btn btn--line btn--sm ld-danger" id="ldtClose" hidden>Close account</button>
               <button type="button" class="btn btn--line btn--sm" id="ldtCsv">Excel (CSV)</button>
               <button type="button" class="btn btn--gold btn--sm" id="ldtPdf">Ledger PDF</button>
             </div>
           </div>
           <p class="form__status tt-noprint" id="ldtStatus" role="status" aria-live="polite"></p>
+          <div id="ldtExit"></div>
           <div class="ld-years tt-noprint" id="ldtYears" role="group" aria-label="Year"></div>
           <div class="tt-stats" id="ldtStats"></div>
           <div class="ld-chart" id="ldtChart"></div>
@@ -199,6 +203,19 @@
             </table>
           </div>
           <p class="bo-hint tt-legend">Click a month to open it. Costs = greek + facility + technical. Cash can be ticked once a month is final.</p>
+        </div>
+
+        <!-- ===== Add a trader ===== -->
+        <div class="tt-pane" data-pane="newtrader" hidden>
+          <button type="button" class="bo-link tt-back tt-noprint" data-back="traders">&larr; All traders</button>
+          <div class="pf-intro"><h2 class="bo-h1">Add a trader</h2><p class="bo-sub">Everything about a new trader in one place. Only the name is required; the rest can be filled in later under Setup.</p></div>
+          <div id="pfNew"></div>
+        </div>
+
+        <!-- ===== Close an account ===== -->
+        <div class="tt-pane" data-pane="close" hidden>
+          <button type="button" class="bo-link tt-back tt-noprint" data-back="traders">&larr; All traders</button>
+          <div id="pfClose"></div>
         </div>
 
         <!-- ===== Full ledger ===== -->
@@ -305,5 +322,6 @@
   <script src="setup.js"></script>
   <script src="pdf.js"></script>
   <script src="ledger.js"></script>
+  <script src="people.js"></script>
 </body>
 </html>
