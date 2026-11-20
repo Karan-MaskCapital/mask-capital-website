@@ -157,7 +157,12 @@
       '<button type="button" class="btn btn--line btn--sm" data-act="finalize">Finalise month</button>' +
       '<button type="button" class="bo-link" data-act="delete">Delete draft</button>';
     else if (isAdmin()) acts += '<button type="button" class="btn btn--line btn--sm" data-act="reopen">Reopen for changes</button>';
-    acts += '<button type="button" class="btn btn--line btn--sm" data-act="zip" title="One PDF per trader, named like the Google Sheet">Trader sheets (ZIP)</button>' +
+    acts += '<span class="tt-pack"><span class="tt-pack-label">Monthly package</span>' +
+      '<button type="button" class="btn btn--gold btn--sm" data-act="pack" title="All PDFs below in one ZIP">Download all (ZIP)</button>' +
+      '<button type="button" class="btn btn--line btn--sm" data-act="zip" title="One PDF per trader, named like the Google Sheet">Trader sheets</button>' +
+      '<button type="button" class="btn btn--line btn--sm" data-act="rep" data-kind="jm" title="Every column, with Jayesh Mehta and MG running totals">GRD Tally - JM</button>' +
+      '<button type="button" class="btn btn--line btn--sm" data-act="rep" data-kind="mg" title="Without trader %, professional fees, cash and Jayesh Mehta columns">GRD Tally - MG</button>' +
+      '<button type="button" class="btn btn--line btn--sm" data-act="rep" data-kind="pay" title="What each trader is paid; traders with a negative incentive are left out">GRD Trader Pay</button></span>' +
       '<button type="button" class="btn btn--line btn--sm" data-act="print">Print</button>';
     $("ttMonthActions").innerHTML = acts;
 
@@ -349,6 +354,14 @@
       msg(st, "Preparing trader sheets…");
       window.BOPdf.month(current.data.entries, current.data.month)
         .then(function (r) { msg(st, "Downloaded " + r.name + " (" + r.count + " PDFs).", "ok"); })
+        .catch(function (err) { msg(st, err.message, "err"); });
+    }
+    if (act === "rep" || act === "pack") {
+      if (current.dirty) { msg(st, "Save your changes first, then download.", "err"); return; }
+      msg(st, "Preparing PDFs…");
+      var d = current.data;
+      (act === "pack" ? window.BOPdf.pack(d.entries, d.month, d.running) : window.BOPdf.report(b.getAttribute("data-kind"), d.entries, d.month, d.running))
+        .then(function (r) { msg(st, "Downloaded " + (r.name ? r.name + " (" + r.count + " PDFs)" : r) + ".", "ok"); })
         .catch(function (err) { msg(st, err.message, "err"); });
     }
     if (act === "finalize") {

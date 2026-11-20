@@ -202,3 +202,7 @@
 .st-table td:has(.st-chip), .st-table td:has(.st-checks) { min-width: 230px; white-space: normal; }
 .st-chip { margin: 0.12rem 0.1rem; }
 .st-ic { font-size: 0.66rem; font-weight: 600; }
+
+/* monthly package buttons */
+.tt-pack { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 0.4rem; padding: 0.35rem 0.5rem; border: 1px solid rgba(197, 164, 109, 0.45); border-radius: 6px; }
+.tt-pack-label { font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold, #c5a46d); margin-right: 0.2rem; }

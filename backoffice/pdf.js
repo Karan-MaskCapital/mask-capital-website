@@ -76,7 +76,7 @@
       ],
       body: [[
         MONTHS[+p[1] - 1].slice(0, 3) + " " + p[0],
-        f(e.gross), f(e.loss_cf), e.legacy ? "" : f(N(e.gross) + N(e.loss_cf)), f(e.nse_net), f(e.bse_net),
+        f(e.gross), f(e.loss_cf), f(N(e.gross) + N(e.loss_cf)), f(e.nse_net), f(e.bse_net),
         f(e.interest), f(e.greek), other ? f(other) : "", f(e.salary_cf),
         f(e.payable), f(e.salary), e.linked_to ? "" : f(N(e.salary) > 0 ? e.incentive : e.prof_fees),
       ]],
@@ -127,6 +127,116 @@
     return { name: fileName(month, e.name), blob: doc.output("blob") };
   }
 
+  /* ---------------------------------------------------------------- month reports
+   * The three exports from the GRD_coordination sheet buttons, for one month:
+   *   "YYYY-MM00 - GRD Tally - JM"   every column
+   *   "YYYY-MM00 - GRD Tally - MG"   without trader %, prof. fees, cash and Jayesh Mehta columns
+   *   "YYYY-MM00 - GRD Trader Pay"   up to Incentive, without trader %, leaving out negative incentives */
+  var COLS = {
+    month:   { h: "Year", w: 64, l: true },
+    account: { h: "Account", w: 78, l: true },
+    gross:   { h: "NSE Gross", sum: true },
+    loss_cf: { h: "Loss Carry Forward", sum: true },
+    gross_cf:{ h: "NSE Gross (C.F.)", sum: true },
+    nse_net: { h: "NSE NET", sum: true },
+    bse_net: { h: "BSE NET", sum: true },
+    net:     { h: "NET Total Payable", sum: true },
+    tpct:    { h: "Trader Pay (%)", pct: true },
+    sal_cf:  { h: "Salary Carry Forward", sum: true },
+    payable: { h: "Total Payable", sum: true },
+    salary:  { h: "Salary (INR)", sum: true },
+    incent:  { h: "Incentive (INR)", sum: true },
+    fees:    { h: "Professional Fees (INR)", sum: true },
+    cash:    { h: "Cash Received", c: true },
+    jm80:    { h: "80% less payable", sum: true },
+    jm:      { h: "Jayesh Mehta (INR)", sum: true },
+    jmpct:   { h: "Jayesh Mehta (%)", pct: true },
+    jmrun:   { h: "JM Running Total (INR)" },
+    mg:      { h: "MG (INR)", sum: true },
+    mgpct:   { h: "MG (%)", pct: true },
+    mgrun:   { h: "MG Running Total (INR)" },
+  };
+  var BASE = ["month", "account", "gross", "loss_cf", "gross_cf", "nse_net", "bse_net", "net"];
+  var REPORTS = {
+    jm: { title: "GRD Tally - JM", cols: BASE.concat(["tpct", "sal_cf", "payable", "salary", "incent", "fees", "cash", "jm80", "jm", "jmpct", "jmrun", "mg", "mgpct", "mgrun"]) },
+    mg: { title: "GRD Tally - MG", cols: BASE.concat(["sal_cf", "payable", "salary", "incent", "mg", "mgpct", "mgrun"]) },
+    pay: { title: "GRD Trader Pay", cols: BASE.concat(["sal_cf", "payable", "salary", "incent"]), skipNegative: true },
+  };
+
+  /** one GRD_coordination row per entry, as the sheet shows it */
+  function coordRows(entries, monthRow, running) {
+    var p = monthRow.month.split("-"), label = p[0] + " - " + MONTHS[+p[1] - 1];
+    var rows = entries.map(function (e) {
+      var net = N(e.net_total), salary = N(e.salary), incent, fees = "";
+      if (e.linked_to) incent = 0;
+      else if (salary > 0) incent = e.incentive;
+      else if (N(e.prof_fees) > 0) { incent = 0; fees = e.prof_fees; }
+      else incent = has(e.prof_fees) ? e.prof_fees : e.payable;
+      return {
+        month: label, account: e.name,
+        gross: e.gross, loss_cf: e.loss_cf, gross_cf: N(e.gross) + N(e.loss_cf),
+        nse_net: e.nse_net, bse_net: e.bse_net, net: e.net_total, tpct: e.trader_pct,
+        sal_cf: e.salary_cf, payable: e.payable, salary: e.salary, incent: incent, fees: fees,
+        cash: e.cash_received ? "Yes" : "No",
+        jm80: Math.round((net * N(e.jm_pct) / 100 - N(e.payable)) * 100) / 100,
+        jm: net > 0 ? e.jm_share : "", jmpct: e.jm_pct, mg: net > 0 ? e.mg_share : "", mgpct: e.mg_pct,
+      };
+    });
+    // running totals, newest at the top as on the sheet: each row = everything up to and including it
+    var jm = N(running && running.jm), mg = N(running && running.mg);
+    for (var i = rows.length - 1; i >= 0; i--) {
+      jm += N(rows[i].jm); mg += N(rows[i].mg);
+      rows[i].jmrun = Math.round(jm * 100) / 100; rows[i].mgrun = Math.round(mg * 100) / 100;
+    }
+    return rows;
+  }
+
+  function reportPdf(kind, entries, monthRow, running) {
+    var R = REPORTS[kind], month = monthRow.month, p = month.split("-");
+    var rows = coordRows(entries, monthRow, running), skipped = 0;
+    if (R.skipNegative) rows = rows.filter(function (r) { var neg = has(r.incent) && +r.incent < 0; if (neg) skipped++; return !neg; });
+    var title = sheetDate(month) + " - " + R.title;
+    var doc = new window.jspdf.jsPDF({ orientation: "landscape", unit: "pt", format: "a4" });
+    var W = doc.internal.pageSize.getWidth(), H = doc.internal.pageSize.getHeight(), M = 28;
+
+    doc.setFillColor.apply(doc, NAVY); doc.rect(0, 0, W, 56, "F");
+    doc.setTextColor(255, 255, 255); doc.setFont("helvetica", "bold"); doc.setFontSize(14);
+    doc.text(title, M, 27);
+    doc.setFont("helvetica", "normal"); doc.setFontSize(8.5); doc.setTextColor.apply(doc, GOLD);
+    doc.text("MASK CAPITAL MANAGEMENT  ·  BACK OFFICE  ·  GRD COORDINATION", M, 43);
+    doc.text(MONTHS[+p[1] - 1].toUpperCase() + " " + p[0], W - M, 43, { align: "right" });
+    if (monthRow.status !== "final") {
+      doc.setTextColor(176, 0, 32); doc.setFont("helvetica", "bold"); doc.setFontSize(9);
+      doc.text("DRAFT - not finalised", W - M, 72, { align: "right" });
+    }
+
+    var cols = R.cols.map(function (k) { return COLS[k]; });
+    function cellText(c, v) { return c.l || c.c ? (v == null ? "" : String(v)) : c.pct ? (has(v) ? f(v) + "%" : "") : f(v); }
+    var body = rows.map(function (r) { return R.cols.map(function (k) { return cellText(COLS[k], r[k]); }); });
+    var foot = [R.cols.map(function (k, i) {
+      if (i === 0) return "Total";
+      if (!COLS[k].sum) return "";
+      return f(Math.round(rows.reduce(function (a, r) { return a + N(r[k]); }, 0) * 100) / 100);
+    })];
+    var colStyles = {};
+    cols.forEach(function (c, i) { colStyles[i] = { halign: c.l ? "left" : c.c ? "center" : "right" }; if (c.w) colStyles[i].cellWidth = c.w; });
+    doc.autoTable({
+      startY: 80, margin: { left: M, right: M }, theme: "grid",
+      styles: { font: "helvetica", fontSize: cols.length > 16 ? 6.3 : 7.5, cellPadding: 3, textColor: INK, lineColor: [200, 205, 210], lineWidth: 0.4, overflow: "linebreak" },
+      headStyles: { fillColor: [20, 40, 58], textColor: 255, halign: "center", valign: "middle", fontStyle: "bold" },
+      footStyles: { fillColor: [238, 232, 220], textColor: INK, fontStyle: "bold", halign: "right" },
+      columnStyles: colStyles,
+      head: [cols.map(function (c) { return c.h; })], body: body, foot: foot,
+      didParseCell: function (d) {
+        if (d.section === "body" && typeof d.cell.raw === "string" && d.cell.raw.charAt(0) === "-" && d.cell.raw.length > 1) d.cell.styles.textColor = [176, 0, 32];
+      },
+    });
+    doc.setFont("helvetica", "normal"); doc.setFontSize(7.5); doc.setTextColor.apply(doc, GREY);
+    if (skipped) doc.text(skipped + " trader" + (skipped > 1 ? "s" : "") + " with a negative incentive not shown.", M, doc.lastAutoTable.finalY + 14);
+    doc.text("Generated " + new Date().toLocaleString("en-IN") + " from the MASK Capital back office. Amounts in INR.", M, H - 16);
+    return { name: title + ".pdf", blob: doc.output("blob") };
+  }
+
   function download(blob, name) {
     var a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = name;
     document.body.appendChild(a); a.click(); a.remove();
@@ -150,5 +260,22 @@
         });
       });
     },
+    /** kind: "jm" | "mg" | "pay" */
+    report: function (kind, entries, monthRow, running) {
+      return loadLibs().then(function () { var r = reportPdf(kind, entries, monthRow, running); download(r.blob, r.name); return r.name; });
+    },
+    /** the whole monthly package: the 3 reports + every trader sheet */
+    pack: function (entries, monthRow, running) {
+      return loadLibs().then(function () {
+        var zip = new window.JSZip(), n = 0;
+        ["jm", "mg", "pay"].forEach(function (k) { var r = reportPdf(k, entries, monthRow, running); zip.file(r.name, r.blob); n++; });
+        entries.forEach(function (e) { var r = traderSheet(e, monthRow); zip.file(r.name, r.blob); n++; });
+        return zip.generateAsync({ type: "blob" }).then(function (blob) {
+          var name = sheetDate(monthRow.month) + " - GRD Monthly Package.zip";
+          download(blob, name); return { name: name, count: n };
+        });
+      });
+    },
+    _rows: coordRows,
   };
 })();

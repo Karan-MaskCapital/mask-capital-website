@@ -84,6 +84,15 @@
         { k: "mg_pct", label: "MG %", type: "num", num: true, suffix: "%" },
         { k: "_keeps", label: "Jayesh Mehta keeps", num: true, calc: function (r) { return fmt((+r.jm_pct || 0) - (+r.payout_pct || 0) - (+r.mg_pct || 0)) + "%"; } },
       ] },
+    { id: "running", title: "Running totals", icon: "Σ", key: "party",
+      desc: "Jayesh Mehta and MG running totals on the GRD Tally reports = opening figure + every month's share. Change the opening only to correct or reset a running total.",
+      cols: [
+        { k: "label", label: "Partner", ro: true, show: function (r) { return "<strong>" + esc(r.label) + "</strong>"; } },
+        { k: "opening", label: "Opening figure", type: "num", num: true },
+        { k: "_shares", label: "All months' shares", num: true, calc: function (r) { return fmt(r.shares); } },
+        { k: "_total", label: "Running total now", num: true, calc: function (r) { return "<strong>" + fmt(Math.round(((+r.opening || 0) + (+r.shares || 0)) * 100) / 100) + "</strong>"; } },
+        { k: "note", label: "Note", type: "text" },
+      ] },
   ];
   function tool(id) { return TOOLS.filter(function (t) { return t.id === id; })[0]; }
 
