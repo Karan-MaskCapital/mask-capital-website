@@ -49,3 +49,21 @@ urls = "\n".join(f"  <url><loc>{u}</loc><lastmod>{today}</lastmod></url>" for u 
     f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{urls}\n</urlset>\n',
     encoding="utf-8", newline="\n")
 print("built sitemap.xml")
+
+# Back office: stamp every local script / stylesheet with a hash of its contents, so phones and
+# browsers always fetch the new file after an update instead of mixing cached and new versions.
+import hashlib, re
+BO = ROOT / "backoffice"
+def _stamp(match):
+    attr, path = match.group(1), match.group(2)
+    f = (BO / path).resolve()
+    if not f.is_file():
+        return match.group(0)
+    v = hashlib.sha1(f.read_bytes()).hexdigest()[:10]
+    return f'{attr}="{path}?v={v}"'
+for page in ("index.html", "portal.html"):
+    p = BO / page
+    html = p.read_text(encoding="utf-8")
+    html = re.sub(r'(src|href)="((?!https?:|#|mailto:)[^"?]+\.(?:js|css))(?:\?v=[0-9a-f]+)?"', _stamp, html)
+    p.write_text(html, encoding="utf-8", newline="\n")
+    print("stamped", "backoffice/" + page)

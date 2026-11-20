@@ -402,11 +402,7 @@
         }).join("") + "</div>";
     }).catch(function (err) { box.innerHTML = '<p class="tt-neg">' + esc(err.message) + "</p>"; });
   }
-  document.addEventListener("click", function (e) {
-    var b = e.target.closest("#homeTally [data-go], .bo-view[data-view=overview] [data-go]"); if (!b) return;
-    var g = b.getAttribute("data-go");
-    BO().show("tally/" + (g || "months"));
-  });
+  // Overview tile clicks are handled in bo.js
 
   /* ---------------------------------------------------------------- routing helper */
   function go(sub) { if (window.BOTally) window.BOTally.go(sub); }

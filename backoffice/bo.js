@@ -71,6 +71,12 @@
 
   navBtns.forEach(function (b) { b.addEventListener("click", function () { show(b.getAttribute("data-view")); }); });
   document.querySelectorAll("[data-goto]").forEach(function (b) { b.addEventListener("click", function () { show(b.getAttribute("data-goto")); }); });
+  // Overview shortcuts and dashboard tiles (data-go="months" | "ledger" | "trader:5" | "2026-11" | "" = months)
+  document.addEventListener("click", function (e) {
+    var b = e.target.closest(".bo-view[data-view=overview] [data-go]"); if (!b) return;
+    e.preventDefault();
+    show("tally/" + (b.getAttribute("data-go") || "months"));
+  });
 
   $("logoutBtn").addEventListener("click", function () {
     api("POST", "/api/logout").catch(function () {}).then(function () { setToken(null); location.replace("index.html"); });
