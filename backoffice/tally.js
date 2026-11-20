@@ -38,7 +38,7 @@
   function setHash(h) { try { history.replaceState(null, "", "#tally" + (h ? "/" + h : "")); } catch (e) {} }
   function pane(name) {
     document.querySelectorAll(".tt-pane").forEach(function (p) { p.hidden = p.getAttribute("data-pane") !== name; });
-    var tab = name === "month" ? "months" : name === "statement" ? "setup" : name;
+    var tab = name === "month" ? "months" : name === "trader" ? "traders" : name;
     document.querySelectorAll(".tt-tabs button").forEach(function (b) { b.classList.toggle("is-active", b.getAttribute("data-tt") === tab); });
     current.pane = name;
     window.scrollTo(0, 0);
@@ -50,14 +50,15 @@
       if (!confirmLeave()) return;
       current.dirty = false;
       var t = b.getAttribute("data-tt");
-      if (t === "months") loadMonths(); else openSetup("");
+      if (window.BOLedger) window.BOLedger.invalidate();
+      route(t);
     });
   });
   document.querySelectorAll("[data-back]").forEach(function (b) {
     b.addEventListener("click", function () {
       if (!confirmLeave()) return;
       current.dirty = false;
-      b.getAttribute("data-back") === "months" ? loadMonths() : openSetup("traders");
+      route(b.getAttribute("data-back"));
     });
   });
   window.addEventListener("beforeunload", function (e) { if (current.dirty) { e.preventDefault(); e.returnValue = ""; } });
@@ -72,6 +73,13 @@
       var jm = 0, mg = 0, drafts = 0;
       ms.forEach(function (m) { jm += +m.jm_share || 0; mg += +m.mg_share || 0; if (m.status === "draft") drafts++; });
       var latest = ms[0];
+      var draft = ms.filter(function (m) { return m.status === "draft"; })[0];
+      $("ttNext").innerHTML = draft
+        ? '<div><span class="hm-next__k">Next step</span><h2 class="hm-next__t">Finish ' + mLabel(draft.month, true) + '</h2><p class="hm-next__s">It is still a draft. Enter the GRD figures, check each trader, save and finalise.</p></div>' +
+          '<button type="button" class="btn btn--gold btn--sm" data-month="' + draft.month + '">Continue ' + mLabel(draft.month) + " →</button>"
+        : '<div><span class="hm-next__k">Next step</span><h2 class="hm-next__t">Start ' + mLabel($("ttNewMonth").value, true) + '</h2><p class="hm-next__s">' +
+          (latest ? mLabel(latest.month, true) + " is final" + (latest.cash_done < latest.traders ? ", with cash ticked for " + latest.cash_done + " of " + latest.traders + " traders." : " and all cash is received.") : "No months yet.") +
+          ' Interest days are filled in from Setup if left blank.</p></div><button type="button" class="btn btn--gold btn--sm" data-start="1">Start ' + mLabel($("ttNewMonth").value) + " →</button>";
       $("ttStats").innerHTML =
         stat("Latest month", latest ? mLabel(latest.month, true) : "–", latest ? "NET " + fmt(latest.net_total) : "") +
         stat("Payable to traders", latest ? fmt(latest.payable) : "–", latest ? mLabel(latest.month) : "") +
@@ -94,6 +102,11 @@
   function stat(k, v, sub) { return '<div class="tt-stat"><span class="tt-stat__k">' + esc(k) + '</span><span class="tt-stat__v">' + esc(v) + '</span><span class="tt-stat__s">' + esc(sub) + "</span></div>"; }
   function pill(s) { return s === "final" ? '<span class="bo-pill">Final</span>' : '<span class="bo-pill bo-pill--warn">Draft</span>'; }
 
+  $("ttNext").addEventListener("click", function (e) {
+    var b = e.target.closest("button"); if (!b) return;
+    if (b.hasAttribute("data-month")) openMonth(b.getAttribute("data-month"));
+    else if (b.hasAttribute("data-start") && confirm("Start " + mLabel($("ttNewMonth").value, true) + " for every active trader?")) $("ttNewForm").requestSubmit ? $("ttNewForm").requestSubmit() : $("ttNewForm").dispatchEvent(new Event("submit", { cancelable: true }));
+  });
   $("ttMonthsBody").addEventListener("click", function (e) {
     var tr = e.target.closest("tr[data-month]"); if (tr) openMonth(tr.getAttribute("data-month"));
   });
@@ -323,12 +336,13 @@
 
   function setCash(id, val, el) {
     BO().api("POST", "/api/tally/months/" + current.month + "/cash", { trader_id: id, cash_received: val })
-      .then(function () { find(id).cash_received = val ? 1 : 0; msg($("ttMonthStatus"), "Cash " + (val ? "marked received" : "unmarked") + " for " + find(id).name + ".", "ok"); })
+      .then(function () { if (window.BOLedger) window.BOLedger.invalidate(); find(id).cash_received = val ? 1 : 0; msg($("ttMonthStatus"), "Cash " + (val ? "marked received" : "unmarked") + " for " + find(id).name + ".", "ok"); })
       .catch(function (err) { el.checked = !val; msg($("ttMonthStatus"), err.message, "err"); });
   }
 
   function save() {
     var st = $("ttMonthStatus");
+    if (window.BOLedger) window.BOLedger.invalidate();
     msg(st, "Saving…");
     var entries = current.data.entries.filter(function (e) { return !e.legacy; }).map(function (e) {
       var o = { trader_id: e.trader_id, note: e.note || "" };
@@ -346,6 +360,7 @@
 
   $("ttMonthActions").addEventListener("click", function (e) {
     var b = e.target.closest("[data-act]"); if (!b) return;
+    if (/finalize|reopen|delete/.test(b.getAttribute("data-act")) && window.BOLedger) window.BOLedger.invalidate();
     var act = b.getAttribute("data-act"), st = $("ttMonthStatus"), month = current.month;
     if (act === "save") save().catch(function () {});
     if (act === "print") window.print();
@@ -419,41 +434,32 @@
       (missed.length ? " Not matched: " + missed.join(", ") + ". Add these names under Traders → GRD names." : ""), missed.length ? "err" : "ok");
   });
 
-  /* ------------------------------------------------------------ statement */
+  /* ------------------------------------------------------------ setup */
   function openSetup(tool) {
     pane("setup"); setHash("setup" + (tool ? ":" + tool : ""));
     if (window.BOSetup) window.BOSetup.open(tool, function (t) { setHash("setup" + (t ? ":" + t : "")); });
   }
 
-  function openStatement(id) {
-    pane("statement");
-    var body = $("ttStmtBody");
-    body.innerHTML = '<tr><td colspan="9">Loading…</td></tr>';
-    BO().api("GET", "/api/tally/traders/" + id + "/history").then(function (j) {
-      var t = j.trader;
-      $("ttStmtTitle").textContent = t.name;
-      $("ttStmtMeta").textContent = "Trader " + fmt(t.payout_pct) + "% · Salary " + fmt(t.salary) + (t.aliases ? " · GRD: " + t.aliases : "");
-      var tot = { payable: 0, salary: 0, inc: 0 };
-      body.innerHTML = j.entries.map(function (e) {
-        var inc = C.N(e.incentive) + C.N(e.prof_fees);
-        tot.payable += C.N(e.payable); tot.salary += C.N(e.salary); tot.inc += inc;
-        return "<tr><td>" + mLabel(e.month) + (e.status === "draft" ? ' <span class="bo-pill bo-pill--warn">Draft</span>' : "") + "</td>" +
-          '<td class="num">' + money(e.gross) + '</td><td class="num">' + money(e.loss_cf) + '</td><td class="num">' + money(e.net_total) + "</td>" +
-          '<td class="num">' + fmt(e.trader_pct) + '</td><td class="num">' + money(e.payable) + '</td><td class="num">' + money(e.salary) + "</td>" +
-          '<td class="num">' + money(inc) + "</td><td>" + (e.cash_received ? "✓" : "") + "</td></tr>";
-      }).join("") + '<tr class="tt-totrow"><td>Total</td><td></td><td></td><td></td><td></td><td class="num">' + money(C.r2(tot.payable)) +
-        '</td><td class="num">' + money(C.r2(tot.salary)) + '</td><td class="num">' + money(C.r2(tot.inc)) + "</td><td></td></tr>";
-    }).catch(function (err) { body.innerHTML = '<tr><td colspan="9">' + esc(err.message) + "</td></tr>"; });
+  /* ------------------------------------------------------------ routing
+   * months | YYYY-MM | traders | trader:<id> | ledger | setup[:tool] */
+  function route(sub) {
+    sub = sub || "months"; loaded = true;
+    if (/^\d{4}-\d{2}$/.test(sub)) return openMonth(sub);
+    if (/^setup/.test(sub)) return openSetup(sub.split(":")[1] || "");
+    if (sub === "traders") { pane("traders"); setHash("traders"); return window.BOLedger.traders(true); }
+    if (/^trader:\d+$/.test(sub)) { pane("trader"); setHash(sub); return window.BOLedger.trader(+sub.split(":")[1]); }
+    if (sub === "ledger") { pane("ledger"); setHash("ledger"); return window.BOLedger.ledger(true); }
+    loadMonths();
   }
-
-  /* ------------------------------------------------------------ entry */
+  function go(sub) {
+    if (!confirmLeave()) return;
+    current.dirty = false;
+    route(sub);
+  }
   var loaded = false;
   window.BOTally = {
-    statement: function (id) { openStatement(id); },
-    open: function (sub) {
-      if (/^\d{4}-\d{2}$/.test(sub || "")) { loaded = true; openMonth(sub); return; }
-      if (/^setup/.test(sub || "")) { loaded = true; openSetup(sub.split(":")[1] || ""); return; }
-      if (!loaded) { loaded = true; loadMonths(); }
-    },
+    statement: function (id) { go("trader:" + id); },
+    go: go,
+    open: function (sub) { if (sub || !loaded) route(sub); },
   };
 })();

@@ -65,6 +65,7 @@
     if (name === "audit") loadAudit();
     try { history.replaceState(null, "", "#" + name + (name === "tally" && sub ? "/" + sub : "")); } catch (e) {}
     if (name === "tally" && window.BOTally) window.BOTally.open(sub);
+    if (name === "overview" && window.BOLedger && !(me && me.must_change)) window.BOLedger.home();
     $("main").focus && $("main").scrollTo && $("main").scrollTo(0, 0);
   }
 
@@ -91,7 +92,7 @@
     show((location.hash || "#overview").slice(1));
   }).catch(function () {});
 
-  window.BO = { api: api, esc: esc, status: status, me: function () { return me; } };
+  window.BO = { api: api, esc: esc, status: status, me: function () { return me; }, show: show };
 
   /* ----- change password ----- */
   $("pwForm").addEventListener("submit", function (e) {

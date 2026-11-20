@@ -147,7 +147,7 @@
       rows += '<tr class="' + (r.active === 0 ? "is-off" : "") + '">' + t.cols.map(function (c) { return '<td class="' + (c.num ? "num" : "") + '">' + view(c, r) + "</td>"; }).join("") +
         '<td class="bo-row-actions">' + (admin ? '<button type="button" class="bo-link" data-st="edit" data-key="' + esc(k) + '">Edit</button>' : "") +
         (admin && t.del ? '<button type="button" class="bo-link" data-st="del" data-key="' + esc(k) + '">Delete</button>' : "") +
-        (t.id === "traders" ? '<button type="button" class="bo-link" data-stmt="' + r.id + '">Statement</button>' : "") + "</td></tr>";
+        (t.id === "traders" ? '<button type="button" class="bo-link" data-stmt="' + r.id + '">Ledger</button>' : "") + "</td></tr>";
     });
     if (!rows) rows = '<tr><td colspan="' + (t.cols.length + 1) + '">Nothing here yet.</td></tr>';
 

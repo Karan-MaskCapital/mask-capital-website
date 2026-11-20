@@ -276,6 +276,36 @@
         });
       });
     },
+    /** a ledger table: { title, head:[], body:[[]], foot:[], textCols } — numbers are formatted here */
+    table: function (o) {
+      return loadLibs().then(function () {
+        var doc = new window.jspdf.jsPDF({ orientation: "landscape", unit: "pt", format: "a4" });
+        var W = doc.internal.pageSize.getWidth(), H = doc.internal.pageSize.getHeight(), M = 28, tc = o.textCols || 1;
+        var cell = function (v, i) { return i < tc || typeof v === "string" ? (v == null ? "" : String(v)) : f(v); };
+        doc.autoTable({
+          startY: 74, margin: { left: M, right: M, top: 74, bottom: 34 }, theme: "grid",
+          styles: { font: "helvetica", fontSize: o.head.length > 13 ? 6.8 : 7.6, cellPadding: 3, textColor: INK, lineColor: [200, 205, 210], lineWidth: 0.4, halign: "right" },
+          headStyles: { fillColor: [20, 40, 58], textColor: 255, halign: "center", valign: "middle", fontStyle: "bold" },
+          footStyles: { fillColor: [238, 232, 220], textColor: INK, fontStyle: "bold", halign: "right" },
+          columnStyles: (function () { var c = {}; for (var i = 0; i < tc; i++) c[i] = { halign: "left" }; return c; })(),
+          head: [o.head],
+          body: o.body.map(function (r) { return r.map(cell); }),
+          foot: o.foot ? [o.foot.map(cell)] : undefined, showFoot: "lastPage",
+          didParseCell: function (d) { if (d.section === "body" && d.column.index >= tc && /^-\d/.test(d.cell.text[0] || "")) d.cell.styles.textColor = [176, 0, 32]; },
+          didDrawPage: function () {
+            doc.setFillColor.apply(doc, NAVY); doc.rect(0, 0, W, 56, "F");
+            doc.setTextColor(255, 255, 255); doc.setFont("helvetica", "bold"); doc.setFontSize(14); doc.text(o.title, M, 27);
+            doc.setFont("helvetica", "normal"); doc.setFontSize(8.5); doc.setTextColor.apply(doc, GOLD);
+            doc.text("MASK CAPITAL MANAGEMENT  ·  BACK OFFICE  ·  TRADE TALLY LEDGER", M, 43);
+            doc.setFontSize(7.5); doc.setTextColor.apply(doc, GREY);
+            doc.text("Generated " + new Date().toLocaleString("en-IN") + ". Amounts in INR.  Page " + doc.internal.getNumberOfPages(), M, H - 16);
+          },
+        });
+        var name = safe("MASK " + o.title) + ".pdf";
+        download(doc.output("blob"), name);
+        return name;
+      });
+    },
     _rows: coordRows,
   };
 })();

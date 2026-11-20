@@ -47,8 +47,13 @@
       <section class="bo-view" data-view="overview">
         <h1 class="bo-h1">Welcome, <span id="welcomeName"></span></h1>
         <p class="bo-sub">MASK Capital Management back office.</p>
+        <div id="homeTally" class="hm"></div>
+        <h2 class="bo-h2 hm-h2">Go to</h2>
         <div class="bo-tiles">
-          <button type="button" class="bo-tile" data-goto="tally"><span class="bo-tile__k">Trade Tally</span><span class="bo-tile__v">Monthly GRD hisaab: trader payouts, Jayesh Mehta and MG shares</span></button>
+          <button type="button" class="bo-tile" data-go="months"><span class="bo-tile__k">Months</span><span class="bo-tile__v">Enter the GRD statement, check payouts, finalise and download the monthly package</span></button>
+          <button type="button" class="bo-tile" data-go="traders"><span class="bo-tile__k">Traders</span><span class="bo-tile__v">Every trader at a glance, and each one&rsquo;s complete ledger</span></button>
+          <button type="button" class="bo-tile" data-go="ledger"><span class="bo-tile__k">Ledger</span><span class="bo-tile__v">All traders, all months in one table. Filter, total, tick cash and download</span></button>
+          <button type="button" class="bo-tile" data-go="setup"><span class="bo-tile__k">Setup</span><span class="bo-tile__v">Interest days, trader data, funds and deposits, greek costs, licences, accounts, shares</span></button>
           <button type="button" class="bo-tile" data-goto="users" data-admin><span class="bo-tile__k">Users</span><span class="bo-tile__v">Create and manage back office staff accounts</span></button>
           <button type="button" class="bo-tile" data-goto="account"><span class="bo-tile__k">My Account</span><span class="bo-tile__v">Change your password</span></button>
         </div>
@@ -59,12 +64,15 @@
           <h1 class="bo-h1">Trade Tally <span class="tt-h1sub">GRD hisaab</span></h1>
           <div class="tt-tabs" role="tablist">
             <button type="button" data-tt="months" class="is-active">Months</button>
+            <button type="button" data-tt="traders">Traders</button>
+            <button type="button" data-tt="ledger">Ledger</button>
             <button type="button" data-tt="setup">Setup</button>
           </div>
         </div>
 
         <!-- ===== Months list ===== -->
         <div class="tt-pane" data-pane="months">
+          <div class="hm-next" id="ttNext"></div>
           <div class="tt-stats" id="ttStats"></div>
 
           <div class="bo-panel tt-new">
@@ -152,17 +160,80 @@
           </div>
         </div>
 
-        <!-- ===== Trader statement ===== -->
-        <div class="tt-pane" data-pane="statement" hidden>
-          <button type="button" class="bo-link tt-back tt-noprint" data-back="setup">← Setup</button>
-          <div class="bo-head">
-            <div><h2 class="bo-h1" id="ttStmtTitle"></h2><p class="tt-meta" id="ttStmtMeta"></p></div>
-            <div class="bo-actions tt-noprint"><button type="button" class="btn btn--line btn--sm" onclick="window.print()">Print</button></div>
+        <!-- ===== Traders ===== -->
+        <div class="tt-pane" data-pane="traders" hidden>
+          <div class="ld-bar">
+            <p class="bo-sub ld-lead">Each card shows the trader&rsquo;s terms, their latest month and the last 12 months of NET. Click a card for the complete ledger.</p>
+            <div class="ld-bar__r">
+              <input type="search" id="ldSearch" class="ld-input" placeholder="Search traders" aria-label="Search traders">
+              <button type="button" class="bo-link" id="ldInactive"></button>
+            </div>
           </div>
+          <div class="ld-cards" id="ldCards"></div>
+        </div>
+
+        <!-- ===== One trader: complete ledger ===== -->
+        <div class="tt-pane" data-pane="trader" hidden>
+          <button type="button" class="bo-link tt-back tt-noprint" data-back="traders">&larr; All traders</button>
+          <div class="bo-head ld-thead">
+            <div>
+              <h2 class="bo-h1" id="ldtName"></h2>
+              <p class="tt-meta" id="ldtMeta"></p>
+              <div class="ld-chips" id="ldtChips"></div>
+            </div>
+            <div class="bo-actions tt-noprint">
+              <button type="button" class="btn btn--line btn--sm" id="ldtEdit">Edit settings</button>
+              <button type="button" class="btn btn--line btn--sm" id="ldtCsv">Excel (CSV)</button>
+              <button type="button" class="btn btn--gold btn--sm" id="ldtPdf">Ledger PDF</button>
+            </div>
+          </div>
+          <p class="form__status tt-noprint" id="ldtStatus" role="status" aria-live="polite"></p>
+          <div class="ld-years tt-noprint" id="ldtYears" role="group" aria-label="Year"></div>
+          <div class="tt-stats" id="ldtStats"></div>
+          <div class="ld-chart" id="ldtChart"></div>
           <div class="bo-table-wrap">
-            <table class="bo-table tt-table">
-              <thead><tr><th>Month</th><th class="num">Gross</th><th class="num">Loss C/F</th><th class="num">NET</th><th class="num">Trader %</th><th class="num">Payable</th><th class="num">Salary</th><th class="num">Incentive / fees</th><th>Cash</th></tr></thead>
-              <tbody id="ttStmtBody"></tbody>
+            <table class="bo-table tt-table ld-table">
+              <thead><tr><th>Month</th><th class="num">Gross</th><th class="num">Loss C/F</th><th class="num">Interest</th><th class="num">Costs</th><th class="num">BSE</th><th class="num">NET</th><th class="num">Trader %</th><th class="num">Salary C/F</th><th class="num">Payable</th><th class="num">Salary</th><th class="num">Incentive<br><small>/ fees</small></th><th class="num">Jayesh Mehta</th><th>Cash</th><th class="tt-noprint"><span class="sr-only">Trader sheet</span></th></tr></thead>
+              <tbody id="ldtBody"></tbody>
+              <tfoot id="ldtFoot"></tfoot>
+            </table>
+          </div>
+          <p class="bo-hint tt-legend">Click a month to open it. Costs = greek + facility + technical. Cash can be ticked once a month is final.</p>
+        </div>
+
+        <!-- ===== Full ledger ===== -->
+        <div class="tt-pane" data-pane="ledger" hidden>
+          <div class="ld-filters bo-panel">
+            <div class="ld-quick" id="lfQuick" role="group" aria-label="Quick ranges">
+              <span class="ld-quick__k">Quick</span>
+              <button type="button" data-q="latest">Latest month</button>
+              <button type="button" data-q="12">Last 12 months</button>
+              <button type="button" data-q="fy">This financial year</button>
+              <button type="button" data-q="pending">Cash pending</button>
+              <button type="button" data-q="all">All months</button>
+            </div>
+            <div class="ld-fgrid">
+              <label class="tt-f"><span>Trader</span><select id="lfTrader" class="ld-input"></select></label>
+              <label class="tt-f"><span>From</span><input type="month" id="lfFrom" class="ld-input"></label>
+              <label class="tt-f"><span>To</span><input type="month" id="lfTo" class="ld-input"></label>
+              <label class="tt-f"><span>Cash</span><select id="lfCash" class="ld-input"><option value="">Any</option><option value="pending">Still to tick</option><option value="received">Received</option></select></label>
+              <label class="tt-f"><span>Month status</span><select id="lfStatus" class="ld-input"><option value="">Any</option><option value="final">Final</option><option value="draft">Draft</option></select></label>
+              <label class="tt-f"><span>Group by</span><select id="lfGroup" class="ld-input"><option value="month">Month</option><option value="trader">Trader</option><option value="none">No grouping</option></select></label>
+              <div class="ld-fbtns"><button type="button" class="bo-link" id="lfReset">Clear filters</button></div>
+            </div>
+          </div>
+          <div class="ld-sums" id="ldSummary"></div>
+          <div class="bo-actions ld-dl tt-noprint">
+            <button type="button" class="btn btn--line btn--sm" id="ldCsv">Excel (CSV)</button>
+            <button type="button" class="btn btn--gold btn--sm" id="ldPdf">Ledger PDF</button>
+            <button type="button" class="btn btn--line btn--sm" onclick="window.print()">Print</button>
+            <span class="form__status" id="ldStatus" role="status" aria-live="polite"></span>
+          </div>
+          <div class="bo-table-wrap ld-scroll">
+            <table class="bo-table tt-table ld-table">
+              <thead><tr><th>Month</th><th>Trader</th><th class="num">Gross</th><th class="num">Interest</th><th class="num">Costs</th><th class="num">NET</th><th class="num">Payable</th><th class="num">Salary</th><th class="num">Incentive<br><small>/ fees</small></th><th class="num">Jayesh Mehta</th><th class="num">MG</th><th>Cash</th></tr></thead>
+              <tbody id="ldBody"></tbody>
+              <tfoot id="ldFoot"></tfoot>
             </table>
           </div>
         </div>
@@ -233,5 +304,6 @@
   <script src="tally.js"></script>
   <script src="setup.js"></script>
   <script src="pdf.js"></script>
+  <script src="ledger.js"></script>
 </body>
 </html>
