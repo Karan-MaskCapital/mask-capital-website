@@ -6,6 +6,17 @@
   <title>Back Office | MASK Capital Management</title>
   <meta name="robots" content="noindex, nofollow">
   <meta name="theme-color" content="#091725">
+  <meta name="bo-version" content="e3a3480a2719">
+  <script>
+    /* If this page came from the phone's cache and a newer back office is live, reload the new one. */
+    (function () {
+      var m = document.querySelector('meta[name="bo-version"]');
+      if (!m || !window.fetch || /[?&]r=/.test(location.search)) return;
+      fetch("version.json?t=" + Date.now(), { cache: "no-store" }).then(function (r) { return r.json(); }).then(function (j) {
+        if (j && j.v && j.v !== m.content) location.replace("portal.html?r=" + Date.now() + location.hash);
+      }).catch(function () {});
+    })();
+  </script>
   <link rel="icon" href="../assets/favicon-32.png" sizes="32x32" type="image/png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -317,7 +328,7 @@
 
   <script src="config.js?v=e34fa3907b"></script>
   <script src="tally-calc.js?v=38715c85da"></script>
-  <script src="bo.js?v=0647ac92d7"></script>
+  <script src="bo.js?v=ba845c03d3"></script>
   <script src="tally.js?v=4250d693fa"></script>
   <script src="setup.js?v=8cd6bff7d8"></script>
   <script src="pdf.js?v=80ab350d11"></script>

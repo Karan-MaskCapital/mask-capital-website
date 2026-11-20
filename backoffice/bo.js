@@ -32,7 +32,7 @@
   if (loginForm) {
     var ls = $("loginStatus");
     if (/expired=1/.test(location.search)) status(ls, "Your session ended. Please sign in again.");
-    if (getToken()) api("GET", "/api/me").then(function () { location.replace("portal.html"); }).catch(function () {});
+    if (getToken()) api("GET", "/api/me").then(function () { location.replace("portal.html?r=" + Date.now()); }).catch(function () {});
     loginForm.addEventListener("submit", function (e) {
       e.preventDefault();
       var u = $("username").value.trim(), p = $("password").value;
@@ -40,7 +40,7 @@
       var btn = loginForm.querySelector("button"); btn.disabled = true;
       status(ls, "Signing in…");
       api("POST", "/api/login", { username: u, password: p })
-        .then(function (j) { setToken(j.token); location.replace("portal.html"); })
+        .then(function (j) { setToken(j.token); location.replace("portal.html?r=" + Date.now()); })
         .catch(function (err) { status(ls, err.message, "err"); btn.disabled = false; $("password").select(); });
     });
     return;

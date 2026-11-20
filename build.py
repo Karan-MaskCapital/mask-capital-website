@@ -67,3 +67,15 @@ for page in ("index.html", "portal.html"):
     html = re.sub(r'(src|href)="((?!https?:|#|mailto:)[^"?]+\.(?:js|css))(?:\?v=[0-9a-f]+)?"', _stamp, html)
     p.write_text(html, encoding="utf-8", newline="\n")
     print("stamped", "backoffice/" + page)
+
+# Back office version: one stamp for the whole portal. portal.html compares it with version.json on load
+# and reloads itself when a newer version is live, so a cached page never lingers after an update.
+_portal = BO / "portal.html"
+_html = _portal.read_text(encoding="utf-8")
+_assets = sorted(re.findall(r'(?:src|href)="([^"]+\?v=[0-9a-f]+)"', _html))
+_body = re.sub(r'<meta name="bo-version" content="[^"]*">', "", _html)
+_ver = hashlib.sha1(("|".join(_assets) + _body).encode("utf-8")).hexdigest()[:12]
+_html = re.sub(r'<meta name="bo-version" content="[^"]*">', f'<meta name="bo-version" content="{_ver}">', _html)
+_portal.write_text(_html, encoding="utf-8", newline="\n")
+(BO / "version.json").write_text('{"v":"' + _ver + '"}\n', encoding="utf-8", newline="\n")
+print("back office version", _ver)
