@@ -94,6 +94,38 @@
 
   window.BO = { api: api, esc: esc, status: status, me: function () { return me; }, show: show };
 
+  /* ----- phones: label every cell with its column heading so tables can show as cards ----- */
+  function labelTables() {
+    document.querySelectorAll("table.tt-table").forEach(function (tbl) {
+      if (!tbl.tHead || !tbl.tHead.rows[0]) return;
+      var heads = [];
+      Array.prototype.forEach.call(tbl.tHead.rows[0].cells, function (th) {
+        var tmp = document.createElement("div");
+        tmp.innerHTML = th.innerHTML.replace(/<br\s*\/?>/gi, " ");
+        var t = tmp.textContent.replace(/\s+/g, " ").trim();
+        for (var i = 0; i < (th.colSpan || 1); i++) heads.push(t);
+      });
+      var sections = Array.prototype.slice.call(tbl.tBodies);
+      if (tbl.tFoot) sections.push(tbl.tFoot);
+      sections.forEach(function (sec) {
+        Array.prototype.forEach.call(sec.rows, function (tr) {
+          var idx = 0;
+          Array.prototype.forEach.call(tr.cells, function (td) {
+            var span = td.colSpan || 1;
+            if (span === 1 && heads[idx]) td.setAttribute("data-label", heads[idx]); else td.removeAttribute("data-label");
+            idx += span;
+          });
+        });
+      });
+    });
+  }
+  var labelQueued = false;
+  new MutationObserver(function () {
+    if (labelQueued) return;
+    labelQueued = true;
+    requestAnimationFrame(function () { labelQueued = false; labelTables(); });
+  }).observe(document.body, { childList: true, subtree: true });
+
   /* ----- change password ----- */
   $("pwForm").addEventListener("submit", function (e) {
     e.preventDefault();

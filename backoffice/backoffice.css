@@ -378,3 +378,101 @@ input.ld-input[type=month] { color-scheme: dark; }
 }
 
 [hidden] { display: none !important; }
+
+/* ================= Phones and small tablets ================= */
+.bo-app { overflow-x: clip; }
+.bo-shell > *, .st-layout > * { min-width: 0; }
+.st-layout { grid-template-columns: 190px minmax(0, 1fr); }
+
+@media (max-width: 980px) {
+  .st-layout { grid-template-columns: minmax(0, 1fr); gap: 1rem; }
+  .st-menu { flex-direction: row; overflow-x: auto; position: static; padding-bottom: 0.3rem; scrollbar-width: thin; }
+  .st-menu button { white-space: nowrap; flex: none; }
+}
+
+@media (max-width: 700px) {
+  .bo-main { padding: 1.2rem 16px 2.4rem; }
+  .bo-h1 { font-size: 1.9rem; }
+  .bo-head { gap: 0.8rem; }
+  .bo-head .bo-actions { width: 100%; }
+  .bo-actions { gap: 0.5rem; }
+  .btn--sm { padding: 0.65rem 0.9rem; font-size: 0.7rem; }
+  .bo-sub { font-size: 0.92rem; margin-bottom: 1.2rem; }
+  .tt-h1sub { display: block; margin: 0.3rem 0 0; }
+
+  /* Trade Tally tabs: full width, equal */
+  .bo-view[data-view="tally"] > .bo-head { flex-direction: column; align-items: stretch; }
+  .tt-tabs { display: flex; width: 100%; }
+  .tt-tabs button { flex: 1; padding: 0.65rem 0.3rem; font-size: 0.82rem; }
+
+  .tt-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.6rem; }
+  .tt-stat { padding: 0.8rem 0.9rem; }
+  .tt-stat__v { font-size: 1.3rem; word-break: break-word; }
+  .hm-next { padding: 1rem 1.1rem; }
+  .hm-next__t { font-size: 1.35rem; }
+  .hm-next .btn { width: 100%; justify-content: center; }
+  .bo-tiles { grid-template-columns: 1fr; }
+  .hm-traders { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .tt-pack { width: 100%; }
+  .tt-steps { grid-template-columns: 1fr; }
+  .tt-inline .field { min-width: 0; flex: 1 1 140px; }
+  .ld-cards { grid-template-columns: 1fr; }
+  .ld-sums { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ld-fgrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ld-scroll { max-height: none; overflow: visible; }
+  .pf-grid { grid-template-columns: 1fr; }
+  .pf-sec { padding: 1rem; }
+  .pf-acct { grid-template-columns: 1fr; padding-bottom: 0.6rem; border-bottom: 1px solid var(--line); }
+  .pf-exit__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+  /* every Trade Tally table becomes a stack of cards: heading on the left, value on the right */
+  .bo-table-wrap:has(.tt-table) { border: 0; overflow: visible; }
+  .tt-table, .tt-table tbody, .tt-table tfoot, .tt-table tr, .tt-table td { display: block; width: 100%; }
+  .tt-table thead { display: none; }
+  .tt-table tr { background: var(--slate); border: 1px solid var(--line); margin-bottom: 0.6rem; padding: 0.35rem 0; }
+  .tt-table tfoot tr { border-color: rgba(197,164,109,0.5); }
+  .tt-table td, .tt-grid td, .ld-table td, .st-table td { display: grid; grid-template-columns: minmax(96px, 42%) minmax(0, 1fr); align-items: center; gap: 0.6rem;
+    padding: 0.4rem 0.95rem !important; border: 0; text-align: right; white-space: normal !important; min-width: 0 !important; }
+  .tt-table td::before { content: attr(data-label); text-align: left; font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mist); font-weight: 400; }
+  .tt-table td[data-label] { justify-items: end; }
+  .tt-table td[data-label]::before { justify-self: start; }
+  /* full ledger: trader name is the card title, month becomes a normal row */
+  #ldBody tr:not(.ld-group):not(.ld-sub) { display: flex; flex-direction: column; }
+  #ldBody tr:not(.ld-group):not(.ld-sub) td:nth-child(2) { order: -1; display: block; text-align: left; font-size: 1.02rem; padding-top: 0.55rem !important; padding-bottom: 0.45rem !important; border-bottom: 1px solid var(--line); margin-bottom: 0.2rem; }
+  #ldBody tr:not(.ld-group):not(.ld-sub) td:nth-child(2)::before { content: none; }
+  #ldBody tr:not(.ld-group):not(.ld-sub) td:first-child { display: grid; font-size: inherit; padding: 0.4rem 0.95rem !important; border: 0; margin: 0; }
+  #ldBody tr:not(.ld-group):not(.ld-sub) td:first-child::before { content: attr(data-label); }
+  .tt-table td:not([data-label]) { display: block; text-align: left; }
+  .tt-table td:not([data-label])::before { content: none; }
+  .tt-table td:empty, .tt-table td[data-label=""] { display: none; }
+  /* first cell = the card title */
+  .tt-table td:first-child { display: block; text-align: left; font-size: 1.02rem; padding-top: 0.55rem !important; padding-bottom: 0.45rem !important; border-bottom: 1px solid var(--line); margin-bottom: 0.2rem; }
+  .tt-table td:first-child::before { content: none; }
+  .tt-table .tt-num { width: 100%; }
+  .tt-table .tt-sub { white-space: normal; }
+  .tt-table .tt-cash { justify-self: end; }
+  /* expanded trader details in a month */
+  .tt-detail { padding: 0 !important; }
+  .tt-detail > td { padding: 0.8rem !important; border: 0; }
+  .tt-detailbox { grid-template-columns: 1fr; }
+  .tt-fields { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  /* ledger group heading + subtotal rows */
+  .ld-group { background: none !important; border: 0 !important; margin: 1rem 0 0.3rem; padding: 0 !important; }
+  .ld-group td { padding: 0 0.2rem !important; background: none !important; border: 0 !important; }
+  .ld-sub { border-color: rgba(197,164,109,0.35) !important; }
+  .ld-sub td:first-child { font-size: 0.85rem; }
+  /* setup rows being edited: label above each input */
+  .st-edit td { grid-template-columns: 1fr; text-align: left; }
+  .st-edit td:first-child { font-size: 0.95rem; }
+  .st-table input:not(.tt-num):not([type=checkbox]), .st-table select, .st-table .tt-num { width: 100%; min-width: 0; }
+  .st-table td:has(.st-chip), .st-table td:has(.st-checks) { min-width: 0; }
+  .st-checks { grid-template-columns: 1fr 1fr; }
+  .bo-row-actions { text-align: left !important; display: flex !important; gap: 1.2rem; }
+  .bo-row-actions::before { content: none !important; }
+  .st-log__top { flex-direction: column; gap: 0.2rem; }
+}
+
+@media (max-width: 380px) {
+  .tt-stats, .ld-sums, .hm-traders, .ld-fgrid, .tt-fields { grid-template-columns: 1fr; }
+  .tt-tabs button { font-size: 0.76rem; }
+}
